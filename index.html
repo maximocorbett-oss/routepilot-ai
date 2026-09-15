@@ -1,291 +1,56 @@
-<!doctype html>
-<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>RoutePilot AI Web v1.3</title>
+<!doctype html><html lang="es"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RoutePilot AI Web v1.4</title>
 <style>
-:root{--bg:#0f172a;--panel:#111827;--card:#1f2937;--text:#f8fafc;--muted:#94a3b8;--line:#334155;--accent:#3b82f6;--ok:#22c55e;--warn:#f59e0b;--danger:#ef4444}*{box-sizing:border-box}body{margin:0;font-family:Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--text)}header{position:sticky;top:0;background:#0f172af2;border-bottom:1px solid var(--line);padding:14px 18px;z-index:2}.wrap{max-width:1150px;margin:auto}.brand{display:flex;justify-content:space-between;gap:10px;align-items:center}h1{font-size:20px;margin:0}.muted{color:var(--muted);font-size:13px}nav{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.btn,nav button{border:1px solid var(--line);background:var(--panel);color:var(--text);padding:10px 13px;border-radius:11px;cursor:pointer}nav button.active,.btn.primary{background:var(--accent);border-color:var(--accent)}main{padding:20px 18px 40px}.hidden{display:none!important}.grid{display:grid;gap:14px}.g4{grid-template-columns:repeat(4,1fr)}.g2{grid-template-columns:repeat(2,1fr)}.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px}.metric{font-size:28px;font-weight:700}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.space{justify-content:space-between}input{width:100%;background:#0b1220;color:var(--text);border:1px solid var(--line);padding:11px 12px;border-radius:10px}label{display:block;color:var(--muted);font-size:13px;margin-bottom:5px}.progress{height:12px;background:#0b1220;border-radius:999px;overflow:hidden}.progress>div{height:100%;background:var(--accent)}.badge{display:inline-block;padding:4px 8px;border:1px solid var(--line);border-radius:999px;font-size:12px}.badge.ok{border-color:var(--ok);color:#86efac}.badge.warn{border-color:var(--warn);color:#fcd34d}.camera-status{margin-top:12px;padding:12px;border:1px solid var(--line);border-radius:12px;background:#0b1220}.camera-status strong{display:block;margin-bottom:4px}.notice{padding:12px 14px;border:1px solid #1d4ed8;background:#172554;border-radius:12px}.warnbox{border-color:#92400e;background:#451a03}.zone{display:grid;grid-template-columns:110px 1fr;gap:10px;padding:12px;border:1px solid var(--line);border-radius:12px;background:#0b1220}.pill{display:inline-block;margin:3px 4px 0 0;padding:5px 8px;border-radius:8px;background:var(--card);font-size:12px}.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;font-size:14px}th,td{padding:10px 8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{color:var(--muted)}@media(max-width:800px){.g4,.g2{grid-template-columns:1fr 1fr}}@media(max-width:520px){.g4,.g2{grid-template-columns:1fr}}
+:root{--bg:#071326;--p:#0d1b32;--p2:#12213b;--line:#2c3d5b;--t:#f8fafc;--m:#9badc7;--b:#438cf8;--g:#22c55e;--r:#ef4444;--a:#f59e0b}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--t);font-family:system-ui,-apple-system,Segoe UI,sans-serif}header{position:sticky;top:0;z-index:10;background:#09162bea;border-bottom:1px solid var(--line);padding:15px}.wrap{max-width:1100px;margin:auto}.flex{display:flex;gap:9px;align-items:center;flex-wrap:wrap}.between{justify-content:space-between}h1{font-size:21px;margin:0}.muted{color:var(--m)}.small{font-size:12px}nav{display:flex;gap:7px;overflow:auto;margin-top:13px}button{background:#101f38;color:white;border:1px solid var(--line);padding:10px 13px;border-radius:11px;font-size:14px}.primary,nav button.active{background:var(--b);border-color:var(--b)}.danger{background:#46191d;border-color:#7f1d1d}main{padding:17px 14px 60px}.grid{display:grid;gap:12px}.g4{grid-template-columns:repeat(4,1fr)}.g2{grid-template-columns:repeat(2,1fr)}.card{background:var(--p);border:1px solid var(--line);border-radius:16px;padding:15px}.metric{font-size:30px;font-weight:800}.hidden{display:none!important}.notice{padding:12px;border-radius:11px;background:#172554;border:1px solid #1d4ed8}.ok{background:#052e16;border-color:#166534}.warn{background:#451a03;border-color:#92400e}input{width:100%;padding:11px;background:#081427;color:white;border:1px solid var(--line);border-radius:10px;font-size:15px}label{display:block;color:var(--m);font-size:13px;margin:8px 0 4px}.thumbs{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:8px}.thumb{position:relative}.thumb img{width:100%;height:115px;object-fit:cover;border-radius:9px;border:1px solid var(--line)}table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:8px 6px;border-bottom:1px solid var(--line);text-align:left}.scroll{overflow:auto}.zone{background:#081427;border:1px solid var(--line);padding:12px;border-radius:12px}.pill{display:inline-block;background:var(--p2);padding:4px 7px;margin:3px;border-radius:7px;font-size:12px}video{width:100%;margin-top:10px;border-radius:12px;background:black}
+@media(max-width:650px){.g4,.g2{grid-template-columns:1fr 1fr}}@media(max-width:440px){.g4,.g2{grid-template-columns:1fr}}
 </style></head><body>
-<header><div class="wrap"><div class="brand"><div><h1>RoutePilot AI Web <span class="muted">v1.3</span></h1><div class="muted">Escanea · Organiza · Entrega</div></div><div class="row"><button class="btn" id="saveBtn">Guardar</button><button class="btn" id="exportBtn">Exportar CSV</button></div></div><nav><button data-v="dashboard" class="active">Inicio</button><button data-v="import">Importar</button><button data-v="scan">Escanear</button><button data-v="load">Carga</button><button data-v="route">Ruta</button><button data-v="search">Buscar</button></nav></div></header>
+<header><div class="wrap"><div class="flex between"><div><h1>RoutePilot AI Web <span class="muted">v1.4</span></h1><div class="muted small">Escanea · Organiza · Entrega</div></div><b id="date"></b></div>
+<nav><button data-v="home" class="active">Inicio</button><button data-v="import">Importar</button><button data-v="scan">Escanear</button><button data-v="load">Carga</button><button data-v="route">Ruta</button><button data-v="search">Buscar</button><button data-v="history">Historial</button></nav></div></header>
 <main class="wrap">
-<section id="dashboard"><div class="grid g4"><div class="card"><div class="muted">Paquetes</div><div class="metric" id="mTotal">0</div></div><div class="card"><div class="muted">Escaneados</div><div class="metric" id="mScanned">0</div></div><div class="card"><div class="muted">Paradas físicas</div><div class="metric" id="mStops">0</div></div><div class="card"><div class="muted">Entregados</div><div class="metric" id="mDelivered">0</div></div></div><div class="card" style="margin-top:14px"><div class="row space"><div><div class="muted">Ruta actual</div><strong id="routeName">Ruta de prueba</strong></div><button class="btn primary" onclick="view('scan')">Comenzar escaneo</button></div><div class="progress" style="margin-top:14px"><div id="progressBar" style="width:0"></div></div><div class="muted" id="progressText" style="margin-top:6px">0% cargado</div></div><div class="grid g2" style="margin-top:14px"><div class="card"><div class="muted">Punto de inicio</div><strong>1251 Metropolitan Ave, West Deptford, NJ 08066</strong></div><div class="card"><div class="muted">Último escaneo</div><div id="lastScan">Todavía no hay paquetes escaneados.</div></div></div></section>
-<section id="import" class="hidden"><div class="grid g2"><div class="card"><h3>Importar ruta</h3><p>Importa un archivo <strong>CSV</strong> o <strong>JSON</strong>.</p><input id="fileInput" type="file" accept=".csv,.json"><p class="muted">Columnas recomendadas: tracking, numero_original, direccion, ciudad, estado, zip, orden_optimizado</p><div class="row"><button class="btn primary" id="loadSampleBtn">Cargar demo</button><button class="btn" id="clearBtn">Borrar todo</button></div></div><div class="card"><h3>Agregar paquete manualmente</h3><div class="grid g2"><div><label>Número GOFO</label><input id="fGofo" type="number"></div><div><label>Tracking</label><input id="fTracking"></div><div style="grid-column:1/-1"><label>Dirección</label><input id="fAddress"></div><div><label>Ciudad</label><input id="fCity"></div><div><label>ZIP</label><input id="fZip"></div><div><label>Orden optimizado</label><input id="fOrder" type="number"></div><div><label>Estado</label><input id="fState" value="PA"></div></div><button class="btn primary" style="margin-top:12px" id="addBtn">Agregar paquete</button></div></div></section>
-<section id="scan" class="hidden"><div class="grid g2"><div class="card"><h3>Escaneo / entrada rápida</h3>
-<div class="camera-status">
-  <strong id="cameraStatusTitle">Permiso de cámara: comprobando…</strong>
-  <div id="cameraStatusText" class="muted">Chrome pedirá permiso la primera vez que actives la cámara.</div>
-  <div class="row" style="margin-top:10px">
-    <button class="btn primary" id="permissionBtn">Permitir cámara</button>
-    <button class="btn" id="cameraBtn">Abrir escáner</button>
-  </div>
-</div>
-<div id="secureWarning" class="notice warnbox hidden" style="margin-top:12px">
-  <strong>Chrome necesita una conexión segura para usar la cámara.</strong>
-  <div class="muted" style="margin-top:6px">Si abriste este archivo con doble clic (file://), inicia un servidor local. En PowerShell, dentro de la carpeta del archivo, ejecuta <b>python -m http.server 8080</b> y luego abre <b>http://localhost:8080</b> en Chrome.</div>
-</div>
-<label style="margin-top:14px">Código, tracking o número GOFO</label><input id="scanInput" placeholder="GFUS... o 157"><div class="row" style="margin-top:10px"><button class="btn primary" id="scanBtn">Registrar manualmente</button></div><video id="video" class="hidden" playsinline muted style="width:100%;margin-top:12px;border-radius:12px;background:black"></video><div id="scanMessage" style="margin-top:12px"></div></div><div class="card"><h3>Resultado</h3><div id="scanResult" class="muted">Escanea un paquete para ver dónde colocarlo.</div></div></div></section>
-<section id="load" class="hidden"><div class="notice">Smart Load: primeras entregas cerca de la puerta; últimas al fondo.</div><div id="zones" class="grid" style="margin-top:14px"></div></section>
-<section id="route" class="hidden"><div class="card"><div class="row space"><h3 style="margin:0">Ruta</h3><button class="btn primary" id="sortBtn">Recalcular Smart Load</button></div><div class="table-wrap" style="margin-top:10px"><table><thead><tr><th>Orden</th><th>GOFO</th><th>Dirección</th><th>Zona</th><th>Estado</th><th>Acciones</th></tr></thead><tbody id="routeTable"></tbody></table></div></div></section>
-<section id="search" class="hidden"><div class="card"><h3>Buscar paquete</h3><input id="searchInput" placeholder="GOFO, tracking o dirección"><div id="searchResults" style="margin-top:12px"></div></div></section>
+<section id="home"><div class="grid g4"><div class="card"><div class="muted">Paquetes</div><div id="total" class="metric">0</div></div><div class="card"><div class="muted">Escaneados</div><div id="scanned" class="metric">0</div></div><div class="card"><div class="muted">Paradas físicas</div><div id="stops" class="metric">0</div></div><div class="card"><div class="muted">Entregados</div><div id="done" class="metric">0</div></div></div>
+<div class="card" style="margin-top:12px"><div class="flex between"><div><b>Jornada actual</b><div class="muted small">Todos los módulos leen una sola base de datos.</div></div><div class="flex"><button id="finish" class="danger">Finalizar jornada</button><button id="new" class="primary">+ Nueva jornada</button></div></div></div></section>
+
+<section id="import" class="hidden"><div class="grid g2">
+<div class="card"><h2>Importar imágenes</h2><p class="muted">Selecciona varias capturas o toma fotos de las pantallas con las paradas.</p><input id="imgs" type="file" accept="image/*" multiple><div id="thumbs" class="thumbs" style="margin-top:10px"></div><div class="notice" style="margin-top:10px"><b>Preparado para OCR</b><br><span class="muted">Las imágenes quedan asociadas a la jornada. Los datos detectados deberán revisarse antes de entrar a la ruta.</span></div></div>
+<div class="card"><h2>Agregar / revisar datos</h2><label>Número original / GOFO</label><input id="gofo"><label>Tracking</label><input id="track"><label>Dirección</label><input id="addr"><label>Ciudad</label><input id="city"><div class="grid g2"><div><label>Estado</label><input id="state" value="PA"></div><div><label>ZIP</label><input id="zip"></div></div><button id="add" class="primary" style="margin-top:10px">Agregar a jornada</button><div id="imsg" style="margin-top:9px"></div></div></div>
+<div class="card" style="margin-top:12px"><h2>Revisar importación</h2><div class="scroll"><table><thead><tr><th>GOFO</th><th>Tracking</th><th>Dirección</th><th>Zona</th><th></th></tr></thead><tbody id="review"></tbody></table></div></div></section>
+
+<section id="scan" class="hidden"><div class="grid g2"><div class="card"><h2>Escaneo continuo</h2><div id="cstat" class="notice">Pulsa Activar cámara.</div><div class="flex" style="margin-top:9px"><button id="cam" class="primary">Activar cámara</button><button id="stopcam">Detener</button></div><video id="video" class="hidden" playsinline muted></video><label>Tracking / GOFO</label><input id="code"><button id="reg" class="primary" style="margin-top:8px">Registrar</button><div id="smsg" style="margin-top:9px"></div></div><div class="card"><h2>Último paquete</h2><div id="last" class="muted">Sin escaneos.</div></div></div></section>
+<section id="load" class="hidden"><div class="notice">Smart Load trabaja únicamente con la jornada actual.</div><div id="zones" class="grid" style="margin-top:10px"></div></section>
+<section id="route" class="hidden"><div class="card"><div class="flex between"><h2>Ruta actual</h2><button id="organize" class="primary">Organizar carga</button></div><div class="scroll"><table><thead><tr><th>#</th><th>GOFO/Tracking</th><th>Dirección</th><th>Ubicación</th></tr></thead><tbody id="rows"></tbody></table></div></div></section>
+<section id="search" class="hidden"><div class="card"><h2>Buscar</h2><input id="query" placeholder="Tracking, GOFO o dirección"><div id="res" style="margin-top:9px"></div></div></section>
+<section id="history" class="hidden"><div class="card"><h2>Historial</h2><div id="hist"></div></div></section>
 </main>
 <script>
-const K='routepilot_web_v1';let S={name:'Ruta demo',packages:[]};
-const sample=[{tracking:'GFUS01063712492864',gofo:150,address:'505 Eagle Pointe',city:'Glen Mills',state:'PA',zip:'19342',order:12},{tracking:'157',gofo:157,address:'9 Hickory Ln',city:'Chadds Ford',state:'PA',zip:'19317',order:1},{tracking:'158',gofo:158,address:'1 Back Acres Ln',city:'Chadds Ford',state:'PA',zip:'19317',order:2},{tracking:'159',gofo:159,address:'1709 Creek Rd',city:'Chadds Ford',state:'PA',zip:'19317',order:3},{tracking:'169',gofo:169,address:'16 Locust Ln',city:'Chadds Ford',state:'PA',zip:'19317',order:18},{tracking:'170',gofo:170,address:'16 Locust Ln',city:'Chadds Ford',state:'PA',zip:'19317',order:18},{tracking:'190',gofo:190,address:'7100 Johnson Farm Ln Apt 117',city:'Chadds Ford',state:'PA',zip:'19317',order:31},{tracking:'191',gofo:191,address:'7100 Johnson Farm Ln Apt 117',city:'Chadds Ford',state:'PA',zip:'19317',order:31},{tracking:'257',gofo:257,address:'239 Katsura Dr',city:'Kennett Square',state:'PA',zip:'19348',order:76}];
-const $=id=>document.getElementById(id);function norm(p){return{tracking:String(p.tracking||p.codigo||p.code||p.gofo||'').trim(),gofo:Number(p.gofo||p.numero_original||p.numeroOriginal||p.stop||0),address:String(p.address||p.direccion||'').trim(),city:String(p.city||p.ciudad||'').trim(),state:String(p.state||p.estado||'PA').trim(),zip:String(p.zip||p.codigo_postal||'').trim(),order:Number(p.order||p.orden_optimizado||p.ordenOptimizado||p.gofo||0),zone:p.zone||'',row:p.row||0,side:p.side||'',scanned:!!p.scanned,delivered:!!p.delivered}}function addr(p){return[p.address,p.city,p.state,p.zip].filter(Boolean).join(', ')}
-function save(){localStorage.setItem(K,JSON.stringify(S))}function load(){try{let r=localStorage.getItem(K);if(r)S=JSON.parse(r)}catch(e){}S.packages=(S.packages||[]).map(norm)}
-function smart(){let a=[...S.packages].sort((x,y)=>(x.order||9999)-(y.order||9999)||x.gofo-y.gofo),n=Math.max(a.length,1);a.forEach((p,i)=>{let r=i/n;p.zone=r<.25?'Puerta':r<.5?'Zona A':r<.75?'Zona B':'Fondo';p.row=(i%4)+1;p.side=i%2?'Derecha':'Izquierda'});S.packages=a;save();render()}
-function view(v){document.querySelectorAll('main section').forEach(s=>s.classList.add('hidden'));$(v).classList.remove('hidden');document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.v===v))}window.view=view;document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>view(b.dataset.v));
-function render(){let t=S.packages.length,s=S.packages.filter(p=>p.scanned).length,d=S.packages.filter(p=>p.delivered).length,st=new Set(S.packages.map(p=>addr(p).toLowerCase())).size,pct=t?Math.round(s/t*100):0;$('mTotal').textContent=t;$('mScanned').textContent=s;$('mDelivered').textContent=d;$('mStops').textContent=st;$('routeName').textContent=S.name;$('progressBar').style.width=pct+'%';$('progressText').textContent=pct+'% cargado';renderZones();renderRoute();renderSearch()}
-function renderZones(){let g={Puerta:[],'Zona A':[],'Zona B':[],Fondo:[]};S.packages.forEach(p=>(g[p.zone]||g.Puerta).push(p));$('zones').innerHTML=Object.entries(g).map(([z,a])=>`<div class="zone"><div><strong>${z}</strong><div class="muted">${a.length} paquetes</div></div><div>${a.map(p=>`<span class="pill">${p.gofo}${p.scanned?' ✓':''}</span>`).join('')||'<span class="muted">Vacío</span>'}</div></div>`).join('')}
-function renderRoute(){$('routeTable').innerHTML=[...S.packages].sort((a,b)=>a.order-b.order).map(p=>`<tr><td>${p.order||'-'}</td><td>${p.gofo||'-'}</td><td>${addr(p)}</td><td>${p.zone}<div class="muted">Fila ${p.row} · ${p.side}</div></td><td>${p.delivered?'<span class="badge ok">Entregado</span>':p.scanned?'<span class="badge warn">Cargado</span>':'<span class="badge">Pendiente</span>'}</td><td><button class="btn" onclick="navTo(${p.gofo})">Mapa</button> <button class="btn" onclick="deliver(${p.gofo})">${p.delivered?'Reabrir':'Entregar'}</button></td></tr>`).join('')}
-function navTo(g){let p=S.packages.find(x=>x.gofo===g);if(p)window.open('https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(addr(p)),'_blank')}window.navTo=navTo;function deliver(g){let p=S.packages.find(x=>x.gofo===g);if(p){p.delivered=!p.delivered;save();render()}}window.deliver=deliver;
-function scan(v){let q=String(v||'').trim().toUpperCase();if(!q)return;let p=S.packages.find(x=>String(x.gofo)===q||x.tracking.toUpperCase()===q);if(!p){$('scanMessage').innerHTML='<div class="notice warnbox">Código no encontrado: <strong>'+q+'</strong></div>';return}let dup=p.scanned;p.scanned=true;save();render();$('lastScan').innerHTML='GOFO <strong>'+p.gofo+'</strong> · '+addr(p);$('scanMessage').innerHTML=dup?'<div class="notice warnbox">⚠ Ya estaba escaneado.</div>':'<div class="notice">✓ Registrado.</div>';let same=S.packages.filter(x=>addr(x).toLowerCase()===addr(p).toLowerCase());$('scanResult').innerHTML=`<div class="card" style="background:#0b1220"><div class="row space"><strong>GOFO ${p.gofo}</strong><span class="badge ok">${p.zone}</span></div><p>${addr(p)}</p><p><strong>Colocar:</strong> ${p.zone} · Fila ${p.row} · ${p.side}</p><p class="muted">${same.length>1?'Esta dirección tiene '+same.length+' paquetes: '+same.map(x=>x.gofo).join(', '):'1 paquete en esta dirección'}</p></div>`}
-$('scanBtn').onclick=()=>{scan($('scanInput').value);$('scanInput').select()};$('scanInput').addEventListener('keydown',e=>{if(e.key==='Enter')scan($('scanInput').value)});
-
-let activeCameraStream=null;
-
-function setCameraStatus(title,text,kind='normal'){
-  $('cameraStatusTitle').textContent=title;
-  $('cameraStatusText').textContent=text;
-  $('cameraStatusTitle').style.color=kind==='ok'?'#86efac':kind==='bad'?'#fca5a5':'';
-}
-
-async function checkCameraPermission(){
-  if(!window.isSecureContext || !navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
-    $('secureWarning').classList.remove('hidden');
-    setCameraStatus('Cámara bloqueada por el navegador','Abre RoutePilot desde HTTPS o desde http://localhost para que Chrome pueda pedir el permiso.','bad');
-    $('permissionBtn').disabled=true;
-    $('cameraBtn').disabled=true;
-    return;
-  }
-  $('secureWarning').classList.add('hidden');
-  try{
-    if(navigator.permissions && navigator.permissions.query){
-      const result=await navigator.permissions.query({name:'camera'});
-      if(result.state==='granted'){
-        setCameraStatus('Permiso de cámara concedido','Chrome ya permite a RoutePilot utilizar la cámara.','ok');
-      }else if(result.state==='denied'){
-        setCameraStatus('Permiso de cámara bloqueado','En Chrome: icono junto a la dirección → Configuración del sitio → Cámara → Permitir.','bad');
-      }else{
-        setCameraStatus('Permiso de cámara pendiente','Pulsa “Permitir cámara”. Chrome mostrará su ventana de autorización.');
-      }
-      result.onchange=checkCameraPermission;
-    }else{
-      setCameraStatus('Permiso de cámara pendiente','Pulsa “Permitir cámara”. Chrome te preguntará si deseas autorizarla.');
-    }
-  }catch(e){
-    setCameraStatus('Cámara disponible','Pulsa “Permitir cámara” para activar el permiso de Chrome.');
-  }
-}
-
-async function requestCameraPermission(){
-  if(!window.isSecureContext || !navigator.mediaDevices?.getUserMedia){
-    await checkCameraPermission();
-    return false;
-  }
-  try{
-    const stream=await navigator.mediaDevices.getUserMedia({
-      video:{facingMode:{ideal:'environment'}},
-      audio:false
-    });
-    stream.getTracks().forEach(t=>t.stop());
-    setCameraStatus('Permiso de cámara concedido','La cámara está lista para escanear paquetes.','ok');
-    $('scanMessage').innerHTML='<div class="notice">✓ Permiso de cámara concedido por Chrome.</div>';
-    return true;
-  }catch(e){
-    const denied=e && (e.name==='NotAllowedError'||e.name==='PermissionDeniedError');
-    setCameraStatus(
-      denied?'Permiso de cámara rechazado':'No se pudo activar la cámara',
-      denied?'Pulsa el icono de permisos junto a la barra de direcciones de Chrome y selecciona Cámara → Permitir.':String(e.message||e),
-      'bad'
-    );
-    $('scanMessage').innerHTML='<div class="notice warnbox">No se pudo obtener acceso a la cámara. Revisa los permisos de Chrome.</div>';
-    return false;
-  }
-}
-
-async function openCameraScanner(){
-  if(!('BarcodeDetector' in window)){
-    $('scanMessage').innerHTML='<div class="notice warnbox">Este navegador no ofrece lectura BarcodeDetector. Usa Chrome/Edge actualizado o registra el código manualmente.</div>';
-    return;
-  }
-  const allowed=await requestCameraPermission();
-  if(!allowed)return;
-  try{
-    activeCameraStream=await navigator.mediaDevices.getUserMedia({
-      video:{facingMode:{ideal:'environment'}},
-      audio:false
-    });
-    const v=$('video');
-    v.srcObject=activeCameraStream;
-    v.classList.remove('hidden');
-    await v.play();
-    setCameraStatus('Cámara activa','Apunta al código de barras o QR del paquete.','ok');
-    const detector=new BarcodeDetector({formats:['code_128','qr_code','data_matrix','code_39']});
-    let scanning=true;
-    const stopCamera=()=>{
-      scanning=false;
-      if(activeCameraStream){activeCameraStream.getTracks().forEach(t=>t.stop());activeCameraStream=null}
-      v.pause();v.srcObject=null;v.classList.add('hidden');
-    };
-    const loop=async()=>{
-      if(!scanning)return;
-      try{
-        const codes=await detector.detect(v);
-        if(codes.length && codes[0].rawValue){
-          scan(codes[0].rawValue);
-          stopCamera();
-          setCameraStatus('Escaneo completado','Pulsa “Abrir escáner” para leer otro paquete.','ok');
-          return;
-        }
-      }catch(e){}
-      requestAnimationFrame(loop);
-    };
-    loop();
-  }catch(e){
-    setCameraStatus('No se pudo abrir el escáner',String(e.message||e),'bad');
-  }
-}
-
-$('permissionBtn').onclick=requestCameraPermission;
-$('cameraBtn').onclick=openCameraScanner;
-checkCameraPermission();
-
-function csv(text){let lines=text.trim().split(/\r?\n/);if(lines.length<2)return[];let sp=l=>{let a=[],c='',q=false;for(let ch of l){if(ch==='"')q=!q;else if(ch===','&&!q){a.push(c);c=''}else c+=ch}a.push(c);return a.map(x=>x.trim().replace(/^"|"$/g,''))};let h=sp(lines[0]).map(x=>x.toLowerCase().replace(/\s+/g,'_'));return lines.slice(1).map(l=>{let v=sp(l),o={};h.forEach((k,i)=>o[k]=v[i]||'');return norm(o)}).filter(p=>p.tracking||p.gofo)}
-$('fileInput').onchange=async()=>{let f=$('fileInput').files[0];if(!f)return;let text=await f.text();try{S.packages=f.name.toLowerCase().endsWith('.json')?JSON.parse(text).map(norm):csv(text);S.name=f.name;smart();view('dashboard')}catch(e){alert('No pude leer el archivo: '+e.message)}};$('loadSampleBtn').onclick=()=>{S.packages=sample.map(norm);S.name='Ruta demo';smart();view('dashboard')};$('clearBtn').onclick=()=>{if(confirm('¿Borrar todo?')){S={name:'Ruta vacía',packages:[]};save();render()}};
-$('addBtn').onclick=()=>{let p=norm({gofo:+$('fGofo').value,tracking:$('fTracking').value,address:$('fAddress').value,city:$('fCity').value,state:$('fState').value,zip:$('fZip').value,order:+$('fOrder').value||+$('fGofo').value});if(!p.gofo&&!p.tracking)return alert('Necesitas GOFO o tracking');S.packages.push(p);smart();['fGofo','fTracking','fAddress','fCity','fZip','fOrder'].forEach(id=>$(id).value='')};
-function renderSearch(){let q=($('searchInput').value||'').trim().toLowerCase(),a=!q?S.packages:S.packages.filter(p=>String(p.gofo).includes(q)||p.tracking.toLowerCase().includes(q)||addr(p).toLowerCase().includes(q));$('searchResults').innerHTML=a.slice(0,100).map(p=>`<div class="card" style="margin-bottom:8px"><div class="row space"><strong>GOFO ${p.gofo}</strong><span class="badge">${p.zone}</span></div><div>${addr(p)}</div><div class="muted">Tracking: ${p.tracking} · Fila ${p.row} · ${p.side}</div></div>`).join('')||'<div class="muted">Sin resultados.</div>'}$('searchInput').addEventListener('input',renderSearch);$('sortBtn').onclick=smart;$('saveBtn').onclick=()=>{save();alert('Guardado en este navegador.')};$('exportBtn').onclick=()=>{let h=['tracking','numero_original','direccion','ciudad','estado','zip','orden_optimizado','zona','fila','lado','escaneado','entregado'],r=S.packages.map(p=>[p.tracking,p.gofo,p.address,p.city,p.state,p.zip,p.order,p.zone,p.row,p.side,p.scanned,p.delivered]),out=[h,...r].map(a=>a.map(v=>'"'+String(v??'').replaceAll('"','""')+'"').join(',')).join('\n'),blob=new Blob([out],{type:'text/csv'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='routepilot_export.csv';a.click();URL.revokeObjectURL(a.href)};
-load();if(!S.packages.length){S.packages=sample.map(norm);smart()}else render();
-</script>
-<script>
-/* RoutePilot v1.3 - corrected daily journey layer */
-(function(){
-  const DAYKEY='routepilot_active_day_v13';
-  const HISTKEY='routepilot_day_history_v13';
-
-  // The original RoutePilot app keeps its operative route in this localStorage key.
-  // We detect it from the existing source to keep this layer synchronized with the dashboard.
-  const APPKEY='routepilot_web_v1';
-
-  function localDay(){
-    const d=new Date(), y=d.getFullYear(), m=String(d.getMonth()+1).padStart(2,'0'),
-          day=String(d.getDate()).padStart(2,'0');
-    return `${y}-${m}-${day}`;
-  }
-  function readJSON(key,fallback){
-    try{return JSON.parse(localStorage.getItem(key)||JSON.stringify(fallback))}catch(e){return fallback}
-  }
-  function history(){return readJSON(HISTKEY,[])}
-  function readCurrent(){return readJSON(APPKEY,{name:'Jornada '+localDay(),packages:[]})}
-  function writeCurrent(v){localStorage.setItem(APPKEY,JSON.stringify(v))}
-  function emptyCurrent(){
-    return {name:'Jornada '+localDay(),packages:[]};
-  }
-  function archiveCurrent(reason){
-    const cur=readCurrent();
-    const pkgs=Array.isArray(cur.packages)?cur.packages:[];
-    if(!pkgs.length) return;
-    const h=history();
-    h.push({
-      id:Date.now(), date:localStorage.getItem(DAYKEY)||localDay(),
-      closedAt:new Date().toISOString(), reason:reason||'manual',
-      packages:pkgs
-    });
-    localStorage.setItem(HISTKEY,JSON.stringify(h));
-  }
-  function hardReset(reason){
-    archiveCurrent(reason);
-    writeCurrent(emptyCurrent());
-    localStorage.setItem(DAYKEY,localDay());
-    // Also clear legacy/demo state keys if present, but preserve history.
-    ['routepilot_state','routepilot_v12_state','routepilot_active_day'].forEach(k=>localStorage.removeItem(k));
-    location.reload();
-  }
-
-  // First launch of v1.3: keep current route visible so user chooses when to archive/reset.
-  if(!localStorage.getItem(DAYKEY)) localStorage.setItem(DAYKEY,localDay());
-
-  // New calendar day: archive previous operative data and start truly empty.
-  if(localStorage.getItem(DAYKEY)!==localDay()){
-    archiveCurrent('cambio-de-dia');
-    writeCurrent(emptyCurrent());
-    localStorage.setItem(DAYKEY,localDay());
-    ['routepilot_state','routepilot_v12_state','routepilot_active_day'].forEach(k=>localStorage.removeItem(k));
-    location.reload();
-    return;
-  }
-
-  // Replace any previous v1.2 journey controls with v1.3 controls.
-  document.querySelectorAll('[data-rp-journey]').forEach(x=>x.remove());
-
-  const nav=document.querySelector('nav');
-  if(nav){
-    const hist=document.createElement('button');
-    hist.dataset.rpJourney='1'; hist.textContent='Historial';
-    hist.onclick=()=>{
-      const h=history();
-      alert(h.length ? h.slice().reverse().map(x=>`${x.date}: ${x.packages.length} paquetes`).join('\n')
-                     : 'Todavía no hay jornadas archivadas.');
-    };
-    nav.appendChild(hist);
-  }
-
-  const header=document.querySelector('.brand');
-  if(header){
-    const day=document.createElement('div');
-    day.dataset.rpJourney='1'; day.className='tag';
-    day.textContent='Jornada activa: '+localDay();
-    header.appendChild(day);
-  }
-
-  const top=document.querySelector('header .wrap');
-  if(top){
-    const controls=document.createElement('div');
-    controls.dataset.rpJourney='1'; controls.className='row'; controls.style.marginTop='10px';
-
-    const finish=document.createElement('button');
-    finish.className='btn danger'; finish.textContent='Finalizar jornada';
-    finish.onclick=()=>{if(confirm('¿Finalizar la jornada? Se guardará en Historial y el panel quedará en cero.')) hardReset('finalizada')};
-
-    const fresh=document.createElement('button');
-    fresh.className='btn primary'; fresh.textContent='+ Nueva jornada';
-    fresh.onclick=()=>{if(confirm('¿Archivar la jornada actual e iniciar una nueva en cero?')) hardReset('nueva-jornada')};
-
-    controls.append(finish,fresh); top.appendChild(controls);
-  }
-
-  // Unknown tracking: add it to the operative route instead of rejecting it.
-  window.routepilotAddUnknownV13=function(code){
-    code=String(code||'').trim().toUpperCase();
-    if(!code)return null;
-    const cur=readCurrent();
-    cur.packages=Array.isArray(cur.packages)?cur.packages:[];
-    const duplicate=cur.packages.some(p =>
-      String(p.tracking||'').toUpperCase()===code || String(p.gofo||'').toUpperCase()===code
-    );
-    if(duplicate) return {duplicate:true};
-
-    cur.packages.push({
-      tracking:code, gofo:'', address:'', city:'', state:'', zip:'',
-      order:cur.packages.length+1, zone:'Sin asignar', row:'', side:'',
-      scanned:true, delivered:false, addedAt:new Date().toISOString()
-    });
-    writeCurrent(cur);
-    return {added:true};
-  };
-
-  const observer=new MutationObserver(()=>{
-    const msg=document.getElementById('scanMessage');
-    if(!msg || !/Código no encontrado:/i.test(msg.textContent))return;
-    const m=msg.textContent.match(/Código no encontrado:\s*([A-Z0-9-]+)/i);
-    if(!m)return;
-    const r=window.routepilotAddUnknownV13(m[1]);
-    if(r?.added){
-      msg.innerHTML='<div class="notice">✓ Paquete nuevo agregado a la jornada actual: <strong>'+m[1]+'</strong></div>';
-      setTimeout(()=>location.reload(),550);
-    } else if(r?.duplicate){
-      msg.innerHTML='<div class="notice warnbox">⚠ Paquete duplicado en esta jornada: <strong>'+m[1]+'</strong></div>';
-    }
-  });
-  observer.observe(document.body,{subtree:true,childList:true,characterData:true});
-})();
-</script>
-
-</body></html>
+const KEY='routepilot_v14_db';const $=x=>document.getElementById(x);let D={current:null,history:[]},stream=null,busy=false;
+function localDate(){let d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function blank(){return{id:Date.now(),date:localDate(),started:new Date().toISOString(),packages:[],images:[]}}
+function load(){try{let x=localStorage.getItem(KEY);if(x)D=JSON.parse(x)}catch(e){}if(!D.current)D.current=blank();persist()}
+function persist(){localStorage.setItem(KEY,JSON.stringify(D))}
+function address(p){return[p.address,p.city,p.state,p.zip].filter(Boolean).join(', ')}
+function physicalStops(){let s=new Set();D.current.packages.forEach(p=>s.add((address(p)||p.tracking||p.gofo).toLowerCase()));return s.size}
+function show(v){document.querySelectorAll('main>section').forEach(x=>x.classList.add('hidden'));$(v).classList.remove('hidden');document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.v===v));render()}
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>show(b.dataset.v));
+function render(){
+let a=D.current.packages;$('date').textContent='Jornada: '+D.current.date;$('total').textContent=a.length;$('scanned').textContent=a.filter(p=>p.scanned).length;$('stops').textContent=physicalStops();$('done').textContent=a.filter(p=>p.delivered).length;
+$('review').innerHTML=a.map((p,i)=>`<tr><td>${p.gofo||''}</td><td>${p.tracking||''}</td><td>${address(p)||'<span class="muted">Pendiente</span>'}</td><td>${p.zone||'Sin asignar'}</td><td><button onclick="removeP(${i})">×</button></td></tr>`).join('')||'<tr><td colspan="5" class="muted">Jornada vacía.</td></tr>';
+$('rows').innerHTML=a.map((p,i)=>`<tr><td>${i+1}</td><td>${p.gofo||p.tracking}</td><td>${address(p)||'Pendiente'}</td><td>${p.zone||'Sin asignar'} ${p.row?'· Fila '+p.row+' · '+p.side:''}</td></tr>`).join('')||'<tr><td colspan="4" class="muted">Jornada vacía.</td></tr>';
+let z={'Puerta':[],'Zona A':[],'Zona B':[],'Fondo':[],'Sin asignar':[]};a.forEach(p=>(z[p.zone||'Sin asignar']||z['Sin asignar']).push(p));$('zones').innerHTML=Object.entries(z).map(([k,v])=>`<div class="zone"><b>${k}</b> <span class="muted">(${v.length})</span><div>${v.map(p=>`<span class="pill">${p.gofo||p.tracking.slice(-6)}</span>`).join('')||'<span class="muted">Vacío</span>'}</div></div>`).join('');
+search();$('hist').innerHTML=D.history.slice().reverse().map(h=>`<div class="card" style="margin:7px 0"><b>${h.date}</b><div class="muted">${h.packages.length} paquetes · ${new Set(h.packages.map(p=>(address(p)||p.tracking||p.gofo).toLowerCase())).size} paradas</div></div>`).join('')||'<span class="muted">Sin jornadas archivadas.</span>'}
+window.removeP=i=>{D.current.packages.splice(i,1);persist();render()}
+function addP(p){let dup=D.current.packages.find(x=>(p.tracking&&x.tracking===p.tracking)||(p.gofo&&x.gofo===p.gofo));if(dup)return false;D.current.packages.push({...p,zone:'Sin asignar',row:'',side:'',delivered:false,added:new Date().toISOString()});persist();render();return true}
+$('add').onclick=()=>{let p={gofo:$('gofo').value.trim(),tracking:$('track').value.trim().toUpperCase(),address:$('addr').value.trim(),city:$('city').value.trim(),state:$('state').value.trim(),zip:$('zip').value.trim(),scanned:false};if(!p.gofo&&!p.tracking&&!p.address){$('imsg').innerHTML='<div class="notice warn">Agrega GOFO, tracking o dirección.</div>';return}let ok=addP(p);$('imsg').innerHTML=`<div class="notice ${ok?'ok':'warn'}">${ok?'Registro agregado.':'Duplicado en esta jornada.'}</div>`}
+$('imgs').onchange=e=>{let fs=[...e.target.files];$('thumbs').innerHTML='';D.current.images=fs.map(f=>({name:f.name,size:f.size,type:f.type}));fs.forEach(f=>{let r=new FileReader();r.onload=()=>{let w=document.createElement('div');w.className='thumb';w.innerHTML=`<img src="${r.result}"><div class="small muted">${f.name}</div>`;$('thumbs').appendChild(w)};r.readAsDataURL(f)});persist()}
+function register(c){c=c.trim().toUpperCase();if(!c||busy)return;busy=true;let p=D.current.packages.find(x=>x.tracking===c||String(x.gofo)===c);if(p){if(p.scanned)$('smsg').innerHTML='<div class="notice warn"><b>Duplicado</b><br>'+c+'</div>';else{$('smsg').innerHTML='<div class="notice ok"><b>Paquete reconocido</b><br>'+c+'</div>';p.scanned=true}$('last').innerHTML=`<b>${c}</b><br>${address(p)||'Dirección pendiente'}<br>${p.zone||'Sin asignar'}`}else{addP({gofo:'',tracking:c,address:'',city:'',state:'',zip:'',scanned:true});$('smsg').innerHTML='<div class="notice ok"><b>Paquete nuevo agregado</b><br>'+c+'</div>';$('last').innerHTML='<b>'+c+'</b><br>Agregado a esta jornada.'}persist();render();navigator.vibrate?.(70);setTimeout(()=>busy=false,850)}
+$('reg').onclick=()=>register($('code').value);$('code').onkeydown=e=>{if(e.key==='Enter')$('reg').click()}
+async function camera(){if(!window.isSecureContext){$('cstat').className='notice warn';$('cstat').textContent='La cámara requiere HTTPS.';return}try{stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'}},audio:false});$('video').srcObject=stream;$('video').classList.remove('hidden');await $('video').play();$('cstat').className='notice ok';$('cstat').textContent='Cámara activa · escaneo continuo';if('BarcodeDetector'in window){let d=new BarcodeDetector({formats:['code_128','qr_code','data_matrix','code_39']});let loop=async()=>{if(!stream)return;try{let c=await d.detect($('video'));if(c[0]?.rawValue)register(c[0].rawValue)}catch(e){}requestAnimationFrame(loop)};loop()}}catch(e){$('cstat').className='notice warn';$('cstat').textContent='No se pudo abrir la cámara. Revisa el permiso de Chrome.'}}
+function stopCamera(){stream?.getTracks().forEach(t=>t.stop());stream=null;$('video').classList.add('hidden')}
+$('cam').onclick=camera;$('stopcam').onclick=stopCamera;
+$('organize').onclick=()=>{let a=D.current.packages,n=Math.max(a.length,1);a.forEach((p,i)=>{let r=i/n;p.zone=r<.25?'Puerta':r<.5?'Zona A':r<.75?'Zona B':'Fondo';p.row=i%4+1;p.side=i%2?'Derecha':'Izquierda'});persist();render()}
+function reset(){if(D.current.packages.length||D.current.images.length)D.history.push({...D.current,finished:new Date().toISOString()});D.current=blank();persist();render();show('home')}
+$('new').onclick=()=>{if(confirm('¿Archivar la jornada actual e iniciar una NUEVA EN CERO?'))reset()};$('finish').onclick=()=>{if(confirm('¿Finalizar y archivar esta jornada?'))reset()}
+function search(){let q=$('query').value.trim().toLowerCase(),a=D.current.packages.filter(p=>!q||String(p.gofo).toLowerCase().includes(q)||(p.tracking||'').toLowerCase().includes(q)||address(p).toLowerCase().includes(q));$('res').innerHTML=a.map(p=>`<div class="card" style="margin:6px 0"><b>${p.gofo||p.tracking}</b><div>${address(p)||'Dirección pendiente'}</div></div>`).join('')||'<span class="muted">Sin resultados.</span>'}
+$('query').oninput=search;load();render();
+</script></body></html>
