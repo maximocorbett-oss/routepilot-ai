@@ -1,12 +1,12 @@
 <!doctype html><html lang="es"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>RoutePilot AI Web v1.6</title>
+<title>RoutePilot AI Web v1.7</title>
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 <style>
 :root{--bg:#071326;--p:#0d1b32;--p2:#12213b;--ln:#2c3d5b;--t:#f8fafc;--m:#9badc7;--b:#438cf8;--g:#22c55e;--r:#ef4444;--a:#f59e0b}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--t);font-family:system-ui,-apple-system,Segoe UI,sans-serif}header{position:sticky;top:0;z-index:10;background:#09162bf2;border-bottom:1px solid var(--ln);padding:15px}.wrap{max-width:1100px;margin:auto}.flex{display:flex;gap:9px;align-items:center;flex-wrap:wrap}.between{justify-content:space-between}h1{font-size:21px;margin:0}.muted{color:var(--m)}.small{font-size:12px}nav{display:flex;gap:7px;overflow:auto;margin-top:13px}button{background:#101f38;color:#fff;border:1px solid var(--ln);padding:10px 13px;border-radius:11px;font-size:14px}.primary,nav button.active{background:var(--b);border-color:var(--b)}.danger{background:#46191d;border-color:#7f1d1d}main{padding:17px 14px 60px}.grid{display:grid;gap:12px}.g4{grid-template-columns:repeat(4,1fr)}.g2{grid-template-columns:repeat(2,1fr)}.card{background:var(--p);border:1px solid var(--ln);border-radius:16px;padding:15px}.metric{font-size:30px;font-weight:800}.hidden{display:none!important}.notice{padding:12px;border-radius:11px;background:#172554;border:1px solid #1d4ed8}.ok{background:#052e16;border-color:#166534}.warn{background:#451a03;border-color:#92400e}input{width:100%;padding:10px;background:#081427;color:#fff;border:1px solid var(--ln);border-radius:9px}label{display:block;color:var(--m);font-size:13px;margin:7px 0 4px}.progress{height:10px;background:#081427;border-radius:10px;overflow:hidden}.bar{height:100%;width:0;background:var(--b)}table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:7px 5px;border-bottom:1px solid var(--ln);text-align:left}.scroll{overflow:auto}.edit{min-width:90px}.addr{min-width:220px}.zone{background:#081427;border:1px solid var(--ln);padding:12px;border-radius:12px}.pill{display:inline-block;background:var(--p2);padding:4px 7px;margin:3px;border-radius:7px;font-size:12px}video{width:100%;margin-top:10px;border-radius:12px;background:#000}
 @media(max-width:650px){.g4,.g2{grid-template-columns:1fr 1fr}}@media(max-width:440px){.g4,.g2{grid-template-columns:1fr}}
-</style></head><body><header><div class="wrap"><div class="flex between"><div><h1>RoutePilot AI Web <span class="muted">v1.6</span></h1><div class="muted small">Escanea · Organiza · Entrega</div></div><b id="date"></b></div>
+</style></head><body><header><div class="wrap"><div class="flex between"><div><h1>RoutePilot AI Web <span class="muted">v1.7</span></h1><div class="muted small">Escanea · Organiza · Entrega</div></div><b id="date"></b></div>
 <nav><button data-v="home" class="active">Inicio</button><button data-v="import">Importar</button><button data-v="scan">Escanear</button><button data-v="load">Carga</button><button data-v="route">Ruta</button><button data-v="search">Buscar</button><button data-v="history">Historial</button></nav></div></header>
 <main class="wrap">
 <section id="home"><div class="grid g4"><div class="card"><div class="muted">Paquetes</div><div id="total" class="metric">0</div></div><div class="card"><div class="muted">Escaneados</div><div id="scanned" class="metric">0</div></div><div class="card"><div class="muted">Paradas físicas</div><div id="stops" class="metric">0</div></div><div class="card"><div class="muted">Entregados</div><div id="done" class="metric">0</div></div></div>
@@ -18,12 +18,12 @@
 
 <section id="scan" class="hidden"><div class="grid g2"><div class="card"><h2>Escaneo continuo</h2><div id="cstat" class="notice">Pulsa Activar cámara.</div><div class="flex" style="margin-top:9px"><button id="cam" class="primary">Activar cámara</button><button id="stopcam">Detener</button></div><video id="video" class="hidden" playsinline muted></video><label>Tracking / GOFO</label><input id="code"><button id="reg" class="primary" style="margin-top:8px">Registrar</button><div id="smsg" style="margin-top:9px"></div></div><div class="card"><h2>Último paquete</h2><div id="last" class="muted">Sin escaneos.</div></div></div></section>
 <section id="load" class="hidden"><div class="notice">Smart Load usa el orden de Ruta optimizada, sin cambiar el GOFO original.</div><div id="zones" class="grid" style="margin-top:10px"></div></section>
-<section id="route" class="hidden"><div class="card"><div class="flex between"><div><h2>Ruta</h2><div class="muted small">Las direcciones iguales se agrupan como una parada física.</div></div><button id="optimize" class="primary">Optimizar proximidad</button></div><div id="optmsg" style="margin:8px 0"></div><div class="scroll"><table><thead><tr><th>Ruta #</th><th>GOFO original</th><th>Dirección</th><th>Paquetes</th><th>Zona carga</th><th></th></tr></thead><tbody id="routeRows"></tbody></table></div></div></section>
+<section id="route" class="hidden"><div class="card"><div class="flex between"><div><h2>Ruta</h2><div class="muted small">Las direcciones iguales se agrupan como una parada física.</div></div></div><div class="grid g2" style="margin:10px 0"><div><label>Punto de inicio</label><input id="startAddress" value="1251 Metropolitan Ave, West Deptford, NJ 08066"></div><div style="align-self:end"><button id="optimize" class="primary">Optimizar por coordenadas</button></div></div><div id="optmsg" style="margin:8px 0"></div><div class="scroll"><table><thead><tr><th>Ruta #</th><th>GOFO original</th><th>Dirección</th><th>Paquetes</th><th>Zona carga</th><th></th></tr></thead><tbody id="routeRows"></tbody></table></div></div></section>
 <section id="search" class="hidden"><div class="card"><h2>Buscar</h2><input id="query" placeholder="Tracking, GOFO o dirección"><div id="res" style="margin-top:9px"></div></div></section>
 <section id="history" class="hidden"><div class="card"><h2>Historial</h2><div id="hist"></div></div></section>
 </main>
 <script>
-const KEY='routepilot_v16_db',OLD='routepilot_v15_db'; const $=x=>document.getElementById(x);let D={current:null,history:[]},files=[],draft=[],stream=null,busy=false;
+const KEY='routepilot_v17_db',OLD='routepilot_v16_db'; const $=x=>document.getElementById(x);let D={current:null,history:[]},files=[],draft=[],stream=null,busy=false;
 function ld(){let d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
 function blank(){return{id:Date.now(),date:ld(),started:new Date().toISOString(),packages:[]}}
 function load(){try{let x=localStorage.getItem(KEY);if(x)D=JSON.parse(x);else{let o=localStorage.getItem(OLD);if(o)D=JSON.parse(o)}}catch(e){}if(!D.current)D.current=blank();save()}
@@ -70,8 +70,30 @@ let selected=draft.filter(x=>x.use);
 let missing=selected.filter(x=>!String(x.gofo||'').trim());
 if(missing.length){$('ocrmsg').innerHTML='<div class="notice warn"><b>No se puede confirmar todavía.</b> Hay '+missing.length+' registro(s) sin número GOFO original. Completa esos números para no perder la referencia de los paquetes.</div>';return}
 let n=0,dup=0;selected.forEach(p=>{let exists=D.current.packages.some(x=>(p.tracking&&x.tracking===p.tracking)||(p.gofo&&x.gofo===p.gofo&&norm(A(x))===norm(A(p))));if(exists)dup++;else{D.current.packages.push({...p,scanned:false,delivered:false,routeOrder:0,zone:'Sin asignar'});n++}});save();render();$('ocrmsg').innerHTML=`<div class="notice ok">${n} registro(s) agregados. ${dup?dup+' duplicado(s) omitidos.':''}</div>`}
-function distance(a,b){let A=norm(a).split(' '),B=norm(b).split(' '),same=A.filter(x=>B.includes(x)).length;return 100-same*8+Math.abs(A.length-B.length)}
-$('optimize').onclick=()=>{let g=groups().filter(x=>x.address);if(!g.length){$('optmsg').innerHTML='<div class="notice warn">Primero confirma direcciones.</div>';return}let ordered=[g.shift()];while(g.length){let last=ordered.at(-1),bi=0,bd=Infinity;g.forEach((x,i)=>{let d=distance(last.address,x.address);if(d<bd){bd=d;bi=i}});ordered.push(g.splice(bi,1)[0])}let n=ordered.length;ordered.forEach((x,i)=>x.packages.forEach(p=>{p.routeOrder=i+1;let r=i/n;p.zone=r<.2?'Puerta':r<.4?'Zona A':r<.6?'Zona B':r<.8?'Zona C':'Fondo'}));save();render();$('optmsg').innerHTML='<div class="notice warn"><b>Orden preliminar.</b> Esta versión agrupa direcciones y zonas, pero la proximidad geográfica real requiere coordenadas/geocodificación. No se presenta este orden como distancia real.</div>'}
+function hav(a,b){let R=6371,rad=x=>x*Math.PI/180,dlat=rad(b.lat-a.lat),dlon=rad(b.lon-a.lon),x=Math.sin(dlat/2)**2+Math.cos(rad(a.lat))*Math.cos(rad(b.lat))*Math.sin(dlon/2)**2;return 2*R*Math.asin(Math.sqrt(x))}
+async function geo(q){
+  let cache=D.geoCache||(D.geoCache={}),k=norm(q); if(cache[k])return cache[k];
+  // US Census Geocoder: public address lookup for U.S. addresses.
+  let u='https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?address='+encodeURIComponent(q)+'&benchmark=Public_AR_Current&format=json';
+  let r=await fetch(u),j=await r.json(),m=j.result?.addressMatches?.[0];
+  if(!m)throw new Error('No se encontró: '+q);
+  let v={lat:+m.coordinates.y,lon:+m.coordinates.x,matched:m.matchedAddress};cache[k]=v;save();return v
+}
+$('optimize').onclick=async()=>{
+ let g=groups().filter(x=>x.address),start=$('startAddress').value.trim();
+ if(!g.length||!start){$('optmsg').innerHTML='<div class="notice warn">Necesito direcciones confirmadas y un punto de inicio.</div>';return}
+ $('optimize').disabled=true;$('optmsg').innerHTML='<div class="notice">Convirtiendo direcciones a coordenadas…</div>';
+ try{
+   let s=await geo(start),valid=[],failed=[];
+   for(let i=0;i<g.length;i++){ $('optmsg').innerHTML='<div class="notice">Geocodificando parada '+(i+1)+' de '+g.length+'…</div>';try{let c=await geo(g[i].address);valid.push({...g[i],coord:c})}catch(e){failed.push(g[i])}}
+   if(!valid.length)throw new Error('No fue posible geocodificar las paradas.');
+   let ordered=[],cur=s;
+   while(valid.length){let bi=0,bd=Infinity;valid.forEach((x,i)=>{let d=hav(cur,x.coord);if(d<bd){bd=d;bi=i}});let nx=valid.splice(bi,1)[0];nx.km=bd;ordered.push(nx);cur=nx.coord}
+   let n=ordered.length;ordered.forEach((x,i)=>x.packages.forEach(p=>{p.routeOrder=i+1;p.lat=x.coord.lat;p.lon=x.coord.lon;p.distanceFromPreviousKm=x.km;let r=i/n;p.zone=r<.2?'Puerta':r<.4?'Zona A':r<.6?'Zona B':r<.8?'Zona C':'Fondo'}));
+   save();render();$('optmsg').innerHTML='<div class="notice ok"><b>Orden geográfico calculado.</b> '+ordered.length+' paradas ordenadas desde el punto de inicio por cercanía entre coordenadas.'+(failed.length?' <b>'+failed.length+' dirección(es) no pudieron localizarse y requieren revisión.</b>':'')+'</div>';
+ }catch(e){$('optmsg').innerHTML='<div class="notice warn"><b>No se pudo completar.</b> '+e.message+'</div>'}
+ finally{$('optimize').disabled=false}
+}
 function register(c){c=c.trim().toUpperCase();if(!c||busy)return;busy=true;let p=D.current.packages.find(x=>x.tracking===c||String(x.gofo)===c);if(p){if(p.scanned)$('smsg').innerHTML='<div class="notice warn">Duplicado: '+c+'</div>';else{p.scanned=true;$('smsg').innerHTML='<div class="notice ok">Reconocido: '+c+'</div>'}$('last').innerHTML=`<b>${c}</b><br>${A(p)||'Dirección pendiente'}<br>GOFO ${p.gofo||'?'} · Ruta ${p.routeOrder||'?'}`}else{D.current.packages.push({gofo:'',tracking:c,address:'',city:'',state:'',zip:'',scanned:true,delivered:false,routeOrder:0,zone:'Sin asignar'});$('smsg').innerHTML='<div class="notice ok">Nuevo tracking agregado: '+c+'</div>'}save();render();navigator.vibrate?.(60);setTimeout(()=>busy=false,800)}
 $('reg').onclick=()=>register($('code').value);
 async function camera(){try{stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'}},audio:false});$('video').srcObject=stream;$('video').classList.remove('hidden');await $('video').play();$('cstat').className='notice ok';$('cstat').textContent='Cámara activa';if('BarcodeDetector'in window){let d=new BarcodeDetector({formats:['code_128','qr_code','data_matrix','code_39']});let loop=async()=>{if(!stream)return;try{let c=await d.detect($('video'));if(c[0]?.rawValue)register(c[0].rawValue)}catch(e){}requestAnimationFrame(loop)};loop()}}catch(e){$('cstat').className='notice warn';$('cstat').textContent='No se pudo abrir la cámara.'}}
