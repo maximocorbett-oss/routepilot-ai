@@ -1,7 +1,60 @@
 <!doctype html><html lang="es"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>RoutePilot AI Web v1.9</title>
-<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+<title>RoutePilot AI Web v2.1</title>
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js">
+// --- RoutePilot v2.1 operational scanner ---
+
+function v21combined(){
+ let g=v20v('v20group').toUpperCase(),n=v20v('v20corrnum');
+ let el=document.getElementById('v20combined'); if(el)el.textContent=(g&&n)?g+n:'—';
+}
+setTimeout(function(){
+ ['v20group','v20corrnum'].forEach(id=>{let e=document.getElementById(id);if(e)e.addEventListener('input',v21combined)});
+},0);
+
+function v20v(id){return (document.getElementById(id)?.value||'').trim()}
+function v20fill(p){
+ document.getElementById('v20tracking').value=p.tracking||'';
+ document.getElementById('v20route').value=p.gofoRoute||'';
+ let ref=p.gofoReference||p.gofoCorrelative||p.gofo||'';
+ let mm=String(ref).match(/^([A-Za-z]+)\s*(\d+)$/);
+ document.getElementById('v20group').value=p.gofoGroup||(mm?mm[1]:'');
+ document.getElementById('v20corrnum').value=p.gofoSequence||(mm?mm[2]:'');
+ v21combined();
+ document.getElementById('v20addr').value=p.address||'';
+ document.getElementById('v20city').value=p.city||'';
+ document.getElementById('v20state').value=p.state||'';
+ document.getElementById('v20zip').value=p.zip||'';
+}
+function v20find(){
+ let t=v20v('v20tracking').toUpperCase(),m=document.getElementById('v20msg');
+ if(!t){m.innerHTML='<div class="notice warn">Escanea o escribe el tracking primero.</div>';return}
+ let p=D.packages.find(x=>(x.tracking||'').toUpperCase()===t);
+ if(p){v20fill(p);m.innerHTML='<div class="notice ok"><b>Paquete encontrado.</b> Datos de la jornada cargados para revisión.</div>'}
+ else m.innerHTML='<div class="notice warn"><b>Tracking nuevo.</b> Completa la dirección y los datos GOFO disponibles antes de guardarlo.</div>';
+}
+function v20save(){
+ let m=document.getElementById('v20msg'),t=v20v('v20tracking').toUpperCase(),
+ a=v20v('v20addr'),c=v20v('v20city'),st=v20v('v20state').toUpperCase(),z=v20v('v20zip'),
+ gr=v20v('v20route'),gg=v20v('v20group').toUpperCase(),gs=v20v('v20corrnum');
+ let gc=(gg&&gs)?gg+gs:'';
+ if(!t){m.innerHTML='<div class="notice warn"><b>No guardado.</b> Falta tracking.</div>';return}
+ if(!a||!z){m.innerHTML='<div class="notice warn"><b>Paquete no identificado completamente.</b> Dirección y ZIP son obligatorios. No se agregó a la ruta.</div>';return}
+ let matches=D.packages.filter(x=>(x.tracking||'').toUpperCase()===t);
+ if(matches.length>1){m.innerHTML='<div class="notice warn"><b>Duplicado.</b> Hay varios registros con ese tracking; revísalos antes de continuar.</div>';return}
+ let p=matches[0];
+ if(p) Object.assign(p,{tracking:t,address:a,city:c,state:st,zip:z,gofoRoute:gr,gofoGroup:gg,gofoSequence:gs,gofoReference:gc,gofoCorrelative:gc,scanned:true});
+ else D.packages.push({id:'p_'+Date.now(),tracking:t,address:a,city:c,state:st,zip:z,gofo:'',gofoRoute:gr,gofoGroup:gg,gofoSequence:gs,gofoReference:gc,gofoCorrelative:gc,scanned:true,delivered:false,zone:'',routeOrder:null});
+ save();
+ try{renderAll()}catch(e){}
+ m.innerHTML='<div class="notice ok"><b>Paquete guardado.</b> Ruta GOFO, Grupo, Correlativo numérico y Tracking quedaron separados. Referencia combinada: '+(gc||'—')+'.</div>';
+}
+setTimeout(function(){
+ let f=document.getElementById('v20find'),s=document.getElementById('v20save');
+ if(f)f.onclick=v20find;if(s)s.onclick=v20save;
+},0);
+
+</script>
 <style>
 :root{--bg:#071326;--p:#0d1b32;--p2:#12213b;--ln:#2c3d5b;--t:#f8fafc;--m:#9badc7;--b:#438cf8;--g:#22c55e;--r:#ef4444;--a:#f59e0b}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--t);font-family:system-ui,-apple-system,Segoe UI,sans-serif}header{position:sticky;top:0;z-index:10;background:#09162bf2;border-bottom:1px solid var(--ln);padding:15px}.wrap{max-width:1100px;margin:auto}.flex{display:flex;gap:9px;align-items:center;flex-wrap:wrap}.between{justify-content:space-between}h1{font-size:21px;margin:0}.muted{color:var(--m)}.small{font-size:12px}nav{display:flex;gap:7px;overflow:auto;margin-top:13px}button{background:#101f38;color:#fff;border:1px solid var(--ln);padding:10px 13px;border-radius:11px;font-size:14px}.primary,nav button.active{background:var(--b);border-color:var(--b)}.danger{background:#46191d;border-color:#7f1d1d}main{padding:17px 14px 60px}.grid{display:grid;gap:12px}.g4{grid-template-columns:repeat(4,1fr)}.g2{grid-template-columns:repeat(2,1fr)}.card{background:var(--p);border:1px solid var(--ln);border-radius:16px;padding:15px}.metric{font-size:30px;font-weight:800}.hidden{display:none!important}.notice{padding:12px;border-radius:11px;background:#172554;border:1px solid #1d4ed8}.ok{background:#052e16;border-color:#166534}.warn{background:#451a03;border-color:#92400e}input{width:100%;padding:10px;background:#081427;color:#fff;border:1px solid var(--ln);border-radius:9px}label{display:block;color:var(--m);font-size:13px;margin:7px 0 4px}.progress{height:10px;background:#081427;border-radius:10px;overflow:hidden}.bar{height:100%;width:0;background:var(--b)}table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:7px 5px;border-bottom:1px solid var(--ln);text-align:left}.scroll{overflow:auto}.edit{min-width:90px}.addr{min-width:220px}.zone{background:#081427;border:1px solid var(--ln);padding:12px;border-radius:12px}.pill{display:inline-block;background:var(--p2);padding:4px 7px;margin:3px;border-radius:7px;font-size:12px}video{width:100%;margin-top:10px;border-radius:12px;background:#000}
@@ -16,14 +69,41 @@
 <div class="card"><h2>2. Reglas de importación</h2><div class="notice"><b>GOFO se conserva</b><br><span class="muted">RoutePilot crea un número de Ruta optimizada separado.</span></div><p class="muted small">El OCR puede equivocarse. Revisa especialmente apartamento, número de casa, ZIP y número original antes de confirmar.</p></div></div>
 <div class="card" style="margin-top:12px"><div class="flex between"><h2>3. Revisar importación</h2><button id="confirmImport" class="primary">Confirmar registros</button></div><div class="scroll"><table><thead><tr><th>Usar</th><th>GOFO</th><th>Tracking</th><th>Dirección</th><th>Ciudad</th><th>ST</th><th>ZIP</th></tr></thead><tbody id="drafts"></tbody></table></div></div></section>
 
-<section id="scan" class="hidden"><div class="grid g2"><div class="card"><h2>Escaneo continuo</h2><div id="cstat" class="notice">Pulsa Activar cámara.</div><div class="flex" style="margin-top:9px"><button id="cam" class="primary">Activar cámara</button><button id="stopcam">Detener</button></div><video id="video" class="hidden" playsinline muted></video><label>Tracking / GOFO</label><input id="code"><button id="reg" class="primary" style="margin-top:8px">Registrar</button><div id="smsg" style="margin-top:9px"></div></div><div class="card"><h2>Último paquete</h2><div id="last" class="muted">Sin escaneos.</div></div></div></section>
+<section id="scan" class="hidden">
+<div class="card">
+<h2>Escáner operativo v2.0</h2>
+<p class="muted">Tracking, Ruta GOFO, Grupo GOFO, Correlativo numérico y Ruta # son datos independientes.</p>
+<label>Tracking del paquete</label>
+<input id="v20tracking" placeholder="GFUS...">
+<div class="row">
+<button id="v20find">Buscar en jornada</button>
+</div>
+<label>Ruta GOFO</label>
+<input id="v20route" placeholder="Ej. 007">
+<div class="grid2">
+ <div><label>Grupo GOFO</label><input id="v20group" placeholder="Ej. A" maxlength="3"></div>
+ <div><label>Correlativo numérico</label><input id="v20corrnum" placeholder="Ej. 760" inputmode="numeric"></div>
+</div>
+<div class="small muted">Referencia GOFO combinada: <b id="v20combined">—</b></div>
+<label>Dirección</label>
+<input id="v20addr" placeholder="2501 Maryland Rd, Apt L10">
+<label>Ciudad</label>
+<input id="v20city" placeholder="Willow Grove">
+<label>Estado</label>
+<input id="v20state" placeholder="PA">
+<label>ZIP</label>
+<input id="v20zip" placeholder="19090" inputmode="numeric">
+<button id="v20save">Revisar y guardar paquete</button>
+<div id="v20msg"></div>
+</div>
+<div class="grid g2"><div class="card"><h2>Escaneo continuo</h2><div id="cstat" class="notice">Pulsa Activar cámara.</div><div class="flex" style="margin-top:9px"><button id="cam" class="primary">Activar cámara</button><button id="stopcam">Detener</button></div><video id="video" class="hidden" playsinline muted></video><label>Tracking / GOFO</label><input id="code"><button id="reg" class="primary" style="margin-top:8px">Registrar</button><div id="smsg" style="margin-top:9px"></div></div><div class="card"><h2>Último paquete</h2><div id="last" class="muted">Sin escaneos.</div></div></div></section>
 <section id="load" class="hidden"><div class="notice">Smart Load usa el orden de Ruta optimizada, sin cambiar el GOFO original.</div><div id="zones" class="grid" style="margin-top:10px"></div></section>
 <section id="route" class="hidden"><div class="card"><div class="flex between"><div><h2>Ruta</h2><div class="muted small">Las direcciones iguales se agrupan como una parada física.</div></div></div><div class="grid g2" style="margin:10px 0"><div><label>Punto de inicio</label><input id="startAddress" value="5000 Richmond St, Building 2 Unit B, Philadelphia, PA 19137"></div><div style="align-self:end"><button id="optimize" class="primary">Optimizar por coordenadas</button></div></div><div id="optmsg" style="margin:8px 0"></div><div class="scroll"><table><thead><tr><th>Ruta #</th><th>GOFO original</th><th>Dirección</th><th>Paquetes</th><th>Zona carga</th><th></th></tr></thead><tbody id="routeRows"></tbody></table></div></div></section>
 <section id="search" class="hidden"><div class="card"><h2>Buscar</h2><input id="query" placeholder="Tracking, GOFO o dirección"><div id="res" style="margin-top:9px"></div></div></section>
 <section id="history" class="hidden"><div class="card"><h2>Historial</h2><div id="hist"></div></div></section>
 </main>
 <script>
-const KEY='routepilot_v19_db',OLD='routepilot_v18_db'; const $=x=>document.getElementById(x);let D={current:null,history:[]},files=[],draft=[],stream=null,busy=false;
+const KEY='routepilot_v21_db',OLD='routepilot_v20_db'; const $=x=>document.getElementById(x);let D={current:null,history:[]},files=[],draft=[],stream=null,busy=false;
 function ld(){let d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
 function blank(){return{id:Date.now(),date:ld(),started:new Date().toISOString(),packages:[]}}
 function load(){try{let x=localStorage.getItem(KEY);if(x)D=JSON.parse(x);else{let o=localStorage.getItem(OLD);if(o)D=JSON.parse(o)}}catch(e){}if(!D.current)D.current=blank();save()}
