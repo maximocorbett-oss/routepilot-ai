@@ -1,12 +1,12 @@
 <!doctype html><html lang="es"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>RoutePilot AI Web v1.7</title>
+<title>RoutePilot AI Web v1.8</title>
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 <style>
 :root{--bg:#071326;--p:#0d1b32;--p2:#12213b;--ln:#2c3d5b;--t:#f8fafc;--m:#9badc7;--b:#438cf8;--g:#22c55e;--r:#ef4444;--a:#f59e0b}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--t);font-family:system-ui,-apple-system,Segoe UI,sans-serif}header{position:sticky;top:0;z-index:10;background:#09162bf2;border-bottom:1px solid var(--ln);padding:15px}.wrap{max-width:1100px;margin:auto}.flex{display:flex;gap:9px;align-items:center;flex-wrap:wrap}.between{justify-content:space-between}h1{font-size:21px;margin:0}.muted{color:var(--m)}.small{font-size:12px}nav{display:flex;gap:7px;overflow:auto;margin-top:13px}button{background:#101f38;color:#fff;border:1px solid var(--ln);padding:10px 13px;border-radius:11px;font-size:14px}.primary,nav button.active{background:var(--b);border-color:var(--b)}.danger{background:#46191d;border-color:#7f1d1d}main{padding:17px 14px 60px}.grid{display:grid;gap:12px}.g4{grid-template-columns:repeat(4,1fr)}.g2{grid-template-columns:repeat(2,1fr)}.card{background:var(--p);border:1px solid var(--ln);border-radius:16px;padding:15px}.metric{font-size:30px;font-weight:800}.hidden{display:none!important}.notice{padding:12px;border-radius:11px;background:#172554;border:1px solid #1d4ed8}.ok{background:#052e16;border-color:#166534}.warn{background:#451a03;border-color:#92400e}input{width:100%;padding:10px;background:#081427;color:#fff;border:1px solid var(--ln);border-radius:9px}label{display:block;color:var(--m);font-size:13px;margin:7px 0 4px}.progress{height:10px;background:#081427;border-radius:10px;overflow:hidden}.bar{height:100%;width:0;background:var(--b)}table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:7px 5px;border-bottom:1px solid var(--ln);text-align:left}.scroll{overflow:auto}.edit{min-width:90px}.addr{min-width:220px}.zone{background:#081427;border:1px solid var(--ln);padding:12px;border-radius:12px}.pill{display:inline-block;background:var(--p2);padding:4px 7px;margin:3px;border-radius:7px;font-size:12px}video{width:100%;margin-top:10px;border-radius:12px;background:#000}
 @media(max-width:650px){.g4,.g2{grid-template-columns:1fr 1fr}}@media(max-width:440px){.g4,.g2{grid-template-columns:1fr}}
-</style></head><body><header><div class="wrap"><div class="flex between"><div><h1>RoutePilot AI Web <span class="muted">v1.7</span></h1><div class="muted small">Escanea · Organiza · Entrega</div></div><b id="date"></b></div>
+</style></head><body><header><div class="wrap"><div class="flex between"><div><h1>RoutePilot AI Web <span class="muted">v1.8</span></h1><div class="muted small">Escanea · Organiza · Entrega</div></div><b id="date"></b></div>
 <nav><button data-v="home" class="active">Inicio</button><button data-v="import">Importar</button><button data-v="scan">Escanear</button><button data-v="load">Carga</button><button data-v="route">Ruta</button><button data-v="search">Buscar</button><button data-v="history">Historial</button></nav></div></header>
 <main class="wrap">
 <section id="home"><div class="grid g4"><div class="card"><div class="muted">Paquetes</div><div id="total" class="metric">0</div></div><div class="card"><div class="muted">Escaneados</div><div id="scanned" class="metric">0</div></div><div class="card"><div class="muted">Paradas físicas</div><div id="stops" class="metric">0</div></div><div class="card"><div class="muted">Entregados</div><div id="done" class="metric">0</div></div></div>
@@ -18,12 +18,12 @@
 
 <section id="scan" class="hidden"><div class="grid g2"><div class="card"><h2>Escaneo continuo</h2><div id="cstat" class="notice">Pulsa Activar cámara.</div><div class="flex" style="margin-top:9px"><button id="cam" class="primary">Activar cámara</button><button id="stopcam">Detener</button></div><video id="video" class="hidden" playsinline muted></video><label>Tracking / GOFO</label><input id="code"><button id="reg" class="primary" style="margin-top:8px">Registrar</button><div id="smsg" style="margin-top:9px"></div></div><div class="card"><h2>Último paquete</h2><div id="last" class="muted">Sin escaneos.</div></div></div></section>
 <section id="load" class="hidden"><div class="notice">Smart Load usa el orden de Ruta optimizada, sin cambiar el GOFO original.</div><div id="zones" class="grid" style="margin-top:10px"></div></section>
-<section id="route" class="hidden"><div class="card"><div class="flex between"><div><h2>Ruta</h2><div class="muted small">Las direcciones iguales se agrupan como una parada física.</div></div></div><div class="grid g2" style="margin:10px 0"><div><label>Punto de inicio</label><input id="startAddress" value="1251 Metropolitan Ave, West Deptford, NJ 08066"></div><div style="align-self:end"><button id="optimize" class="primary">Optimizar por coordenadas</button></div></div><div id="optmsg" style="margin:8px 0"></div><div class="scroll"><table><thead><tr><th>Ruta #</th><th>GOFO original</th><th>Dirección</th><th>Paquetes</th><th>Zona carga</th><th></th></tr></thead><tbody id="routeRows"></tbody></table></div></div></section>
+<section id="route" class="hidden"><div class="card"><div class="flex between"><div><h2>Ruta</h2><div class="muted small">Las direcciones iguales se agrupan como una parada física.</div></div></div><div class="grid g2" style="margin:10px 0"><div><label>Punto de inicio</label><input id="startAddress" value="5000 Richmond St Building 2 Unit B, Philadelphia, PA"></div><div style="align-self:end"><button id="optimize" class="primary">Optimizar por coordenadas</button></div></div><div id="optmsg" style="margin:8px 0"></div><div class="scroll"><table><thead><tr><th>Ruta #</th><th>GOFO original</th><th>Dirección</th><th>Paquetes</th><th>Zona carga</th><th></th></tr></thead><tbody id="routeRows"></tbody></table></div></div></section>
 <section id="search" class="hidden"><div class="card"><h2>Buscar</h2><input id="query" placeholder="Tracking, GOFO o dirección"><div id="res" style="margin-top:9px"></div></div></section>
 <section id="history" class="hidden"><div class="card"><h2>Historial</h2><div id="hist"></div></div></section>
 </main>
 <script>
-const KEY='routepilot_v17_db',OLD='routepilot_v16_db'; const $=x=>document.getElementById(x);let D={current:null,history:[]},files=[],draft=[],stream=null,busy=false;
+const KEY='routepilot_v18_db',OLD='routepilot_v17_db'; const $=x=>document.getElementById(x);let D={current:null,history:[]},files=[],draft=[],stream=null,busy=false;
 function ld(){let d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
 function blank(){return{id:Date.now(),date:ld(),started:new Date().toISOString(),packages:[]}}
 function load(){try{let x=localStorage.getItem(KEY);if(x)D=JSON.parse(x);else{let o=localStorage.getItem(OLD);if(o)D=JSON.parse(o)}}catch(e){}if(!D.current)D.current=blank();save()}
@@ -39,32 +39,46 @@ $('routeRows').innerHTML=g.map((x,i)=>`<tr><td>${x.routeOrder||'—'}</td><td>${
 let z={'Puerta':[],'Zona A':[],'Zona B':[],'Zona C':[],'Fondo':[],'Sin asignar':[]};a.forEach(p=>(z[p.zone||'Sin asignar']||z['Sin asignar']).push(p));$('zones').innerHTML=Object.entries(z).map(([n,v])=>`<div class="zone"><b>${n}</b> <span class="muted">(${v.length})</span><div>${v.map(p=>`<span class="pill">GOFO ${p.gofo||'?'} · R${p.routeOrder||'?'}</span>`).join('')||'<span class="muted">Vacío</span>'}</div></div>`).join('');
 search();$('hist').innerHTML=D.history.slice().reverse().map(h=>`<div class="card" style="margin:7px 0"><b>${h.date}</b><div class="muted">${h.packages.length} paquetes</div></div>`).join('')||'<span class="muted">Sin jornadas archivadas.</span>'}
 window.maps=e=>window.open('https://www.google.com/maps/search/?api=1&query='+e,'_blank');
-function parseText(t,source){let lines=t.split(/\n/).map(x=>x.trim()).filter(Boolean),track=(t.match(/\bGFUS[A-Z0-9]{8,25}\b/i)||[''])[0].toUpperCase(),zip=(t.match(/\b\d{5}(?:-\d{4})?\b/)||[''])[0],st=((t.match(/\b(PA|NJ|DE|NY|MD)\b/i)||['',''])[1]||'').toUpperCase();let ar=/\b\d{1,6}\s+[A-Za-z0-9.'’# -]+(?:St|Street|Rd|Road|Ln|Lane|Dr|Drive|Ave|Avenue|Way|Ct|Court|Pike|Blvd|Boulevard|Cir|Circle|Ter|Terrace|Pl|Place|Xing|Crossing)\b[^,\n]*/i,am=t.match(ar),address=am?am[0].trim():'';let gofo='';
-for(let l of lines){
-  let m=l.match(/(?:STOP|PARADA|GOFO|STOP\s*NO|SEQUENCE|SEQ|NO\.?|#)\s*[:#-]?\s*(\d{1,4})\b/i);
-  if(m){gofo=m[1];break}
+function parseText(t,source){
+ let lines=t.split(/\n/).map(x=>x.replace(/[|]/g,' ').trim()).filter(Boolean);
+ let stopRe=/(?:STOP|PARADA|GOFO|STOP\s*NO|SEQUENCE|SEQ|NO\.?|#)\s*[:#-]?\s*(\d{1,4})\b/i;
+ let addrRe=/\b\d{1,6}\s+[A-Za-z0-9.'’# -]+(?:St|Street|Rd|Road|Ln|Lane|Dr|Drive|Ave|Avenue|Way|Ct|Court|Pike|Blvd|Boulevard|Cir|Circle|Ter|Terrace|Pl|Place|Xing|Crossing)\b[^,\n]*/i;
+ let trackRe=/\bGFUS[A-Z0-9]{8,25}\b/i, zipRe=/\b\d{5}(?:-\d{4})?\b/, stateRe=/\b(PA|NJ|DE|NY|MD)\b/i;
+ let anchors=[];
+ lines.forEach((l,i)=>{let m=l.match(stopRe);if(m)anchors.push({i,gofo:m[1]})});
+ // GOFO often appears as a standalone 1–3 digit line in screenshots.
+ if(!anchors.length) lines.forEach((l,i)=>{let m=l.match(/^(\d{1,3})$/);if(m)anchors.push({i,gofo:m[1]})});
+ // If labelled anchors exist but some other standalone GOFOs are present, include them too.
+ else lines.forEach((l,i)=>{let m=l.match(/^(\d{1,3})$/);if(m&&!anchors.some(a=>a.i===i))anchors.push({i,gofo:m[1]})});
+ anchors.sort((a,b)=>a.i-b.i);
+ let out=[];
+ if(anchors.length){
+   anchors.forEach((a,n)=>{
+     let e=n+1<anchors.length?anchors[n+1].i:lines.length, block=lines.slice(a.i,e).join('\n');
+     let am=block.match(addrRe),tm=block.match(trackRe),zm=block.match(zipRe),sm=block.match(stateRe);
+     let address=am?am[0].trim():'',city='';
+     if(am){let ai=lines.slice(a.i,e).findIndex(x=>x.includes(address));let next=lines[a.i+ai+1]||'';let cm=next.match(/^([A-Za-z .'-]+?)(?:,?\s+[A-Z]{2})?(?:\s+\d{5})?$/);if(cm)city=cm[1].trim()}
+     out.push({use:true,gofo:a.gofo,tracking:(tm?.[0]||'').toUpperCase(),address,city,state:(sm?.[1]||'').toUpperCase(),zip:zm?.[0]||'',source,raw:block});
+   });
+ }
+ // Address-driven fallback: one record per address if GOFO anchoring was poor.
+ let addresses=[]; lines.forEach((l,i)=>{let m=l.match(addrRe);if(m)addresses.push({i,address:m[0].trim()})});
+ if(addresses.length>out.filter(x=>x.address).length){
+   out=addresses.map((a,n)=>{
+     let s=n?addresses[n-1].i+1:Math.max(0,a.i-4),e=n+1<addresses.length?addresses[n+1].i:Math.min(lines.length,a.i+5);
+     let block=lines.slice(s,e).join('\n'), gm=block.match(stopRe), tm=block.match(trackRe),zm=block.match(zipRe),sm=block.match(stateRe);
+     let standalone=lines.slice(s,a.i+1).map(x=>x.match(/^(\d{1,3})$/)).filter(Boolean);
+     return {use:true,gofo:gm?.[1]||(standalone.at(-1)?.[1]||''),tracking:(tm?.[0]||'').toUpperCase(),address:a.address,city:'',state:(sm?.[1]||'').toUpperCase(),zip:zm?.[0]||'',source,raw:block};
+   });
+ }
+ return out.length?out:[{use:false,gofo:'',tracking:'',address:'',city:'',state:'',zip:'',source,raw:t}];
 }
-if(!gofo){
-  // Fallback for GOFO screenshots where the original stop number appears by itself.
-  // Avoid ZIPs, street numbers embedded in addresses, route/hub numbers and long IDs.
-  let candidates=[];
-  lines.forEach((l,idx)=>{
-    let clean=l.replace(/[|()[\]]/g,' ').trim();
-    let m=clean.match(/^(\d{1,3})$/);
-    if(m){
-      let n=Number(m[1]);
-      if(n>=1 && n<=999) candidates.push({v:m[1],idx});
-    }
-  });
-  if(candidates.length) gofo=candidates[0].v;
-}
-let city='';if(address){let idx=lines.findIndex(l=>l.includes(address));if(idx>=0&&lines[idx+1]){let c=lines[idx+1].match(/^([A-Za-z .'-]+?)(?:,?\s+[A-Z]{2})?(?:\s+\d{5})?$/);if(c)city=c[1].trim()}}return{use:true,gofo,tracking:track,address,city,state:st,zip,source,raw:t}}
 function renderDraft(){ $('drafts').innerHTML=draft.map((p,i)=>`<tr><td><input type="checkbox" ${p.use?'checked':''} onchange="draft[${i}].use=this.checked"></td><td><input class="edit" value="${esc(p.gofo)}" oninput="draft[${i}].gofo=this.value"></td><td><input class="edit" value="${esc(p.tracking)}" oninput="draft[${i}].tracking=this.value.toUpperCase()"></td><td><input class="addr" value="${esc(p.address)}" oninput="draft[${i}].address=this.value"></td><td><input class="edit" value="${esc(p.city)}" oninput="draft[${i}].city=this.value"></td><td><input class="edit" value="${esc(p.state)}" oninput="draft[${i}].state=this.value.toUpperCase()"></td><td><input class="edit" value="${esc(p.zip)}" oninput="draft[${i}].zip=this.value"></td></tr>`).join('')||'<tr><td colspan="7" class="muted">Aún no hay resultados OCR.</td></tr>'}
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;')}
 $('imgs').onchange=e=>{files=[...e.target.files];$('ocrmsg').innerHTML=`<div class="notice">${files.length} imagen(es) seleccionada(s).</div>`}
 $('ocr').onclick=async()=>{if(!files.length)return $('ocrmsg').innerHTML='<div class="notice warn">Selecciona imágenes primero.</div>';if(!window.Tesseract)return $('ocrmsg').innerHTML='<div class="notice warn">No se cargó el motor OCR. Verifica tu conexión a internet.</div>';draft=[];$('progbox').classList.remove('hidden');for(let i=0;i<files.length;i++){ $('progtext').textContent=`Procesando imagen ${i+1} de ${files.length}: ${files[i].name}`;try{let r=await Tesseract.recognize(files[i],'eng',{logger:m=>{if(m.status==='recognizing text')$('bar').style.width=((i+m.progress)/files.length*100)+'%'}});let parsed=parseText(r.data.text,files[i].name);
-draft.push(parsed)}catch(e){draft.push({use:false,gofo:'',tracking:'',address:'',city:'',state:'',zip:'',source:files[i].name,raw:''})}renderDraft()}$('bar').style.width='100%';let missing=draft.filter(x=>x.use&&!x.gofo).length;
-$('ocrmsg').innerHTML='<div class="notice '+(missing?'warn':'ok')+'"><b>OCR terminado.</b> '+(missing?missing+' registro(s) todavía no tienen GOFO original. Corrígelos antes de confirmar.':'Todos los registros detectados tienen GOFO. Revisa los campos antes de confirmar.')+'</div>'}
+draft.push(...parsed)}catch(e){draft.push({use:false,gofo:'',tracking:'',address:'',city:'',state:'',zip:'',source:files[i].name,raw:''})}renderDraft()}$('bar').style.width='100%';let missing=draft.filter(x=>x.use&&!x.gofo).length;
+$('ocrmsg').innerHTML='<div class="notice '+(missing?'warn':'ok')+'"><b>OCR terminado.</b> '+files.length+' imagen(es) produjeron '+draft.filter(x=>x.use).length+' parada(s). '+(missing?missing+' todavía no tienen GOFO original. Corrígelos antes de confirmar.':'Todos los registros detectados tienen GOFO. Revisa antes de confirmar.')+'</div>'}
 $('confirmImport').onclick=()=>{
 let selected=draft.filter(x=>x.use);
 let missing=selected.filter(x=>!String(x.gofo||'').trim());
@@ -72,12 +86,24 @@ if(missing.length){$('ocrmsg').innerHTML='<div class="notice warn"><b>No se pued
 let n=0,dup=0;selected.forEach(p=>{let exists=D.current.packages.some(x=>(p.tracking&&x.tracking===p.tracking)||(p.gofo&&x.gofo===p.gofo&&norm(A(x))===norm(A(p))));if(exists)dup++;else{D.current.packages.push({...p,scanned:false,delivered:false,routeOrder:0,zone:'Sin asignar'});n++}});save();render();$('ocrmsg').innerHTML=`<div class="notice ok">${n} registro(s) agregados. ${dup?dup+' duplicado(s) omitidos.':''}</div>`}
 function hav(a,b){let R=6371,rad=x=>x*Math.PI/180,dlat=rad(b.lat-a.lat),dlon=rad(b.lon-a.lon),x=Math.sin(dlat/2)**2+Math.cos(rad(a.lat))*Math.cos(rad(b.lat))*Math.sin(dlon/2)**2;return 2*R*Math.asin(Math.sqrt(x))}
 async function geo(q){
-  let cache=D.geoCache||(D.geoCache={}),k=norm(q); if(cache[k])return cache[k];
-  // US Census Geocoder: public address lookup for U.S. addresses.
-  let u='https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?address='+encodeURIComponent(q)+'&benchmark=Public_AR_Current&format=json';
-  let r=await fetch(u),j=await r.json(),m=j.result?.addressMatches?.[0];
-  if(!m)throw new Error('No se encontró: '+q);
-  let v={lat:+m.coordinates.y,lon:+m.coordinates.x,matched:m.matchedAddress};cache[k]=v;save();return v
+ let cache=D.geoCache||(D.geoCache={}),k=norm(q);if(cache[k])return cache[k];
+ let errors=[];
+ // Provider 1: US Census
+ try{
+   let u='https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?address='+encodeURIComponent(q)+'&benchmark=Public_AR_Current&format=json';
+   let r=await fetch(u,{mode:'cors'});if(!r.ok)throw new Error('Census HTTP '+r.status);
+   let j=await r.json(),m=j.result?.addressMatches?.[0];
+   if(m){let v={lat:+m.coordinates.y,lon:+m.coordinates.x,matched:m.matchedAddress,provider:'US Census'};cache[k]=v;save();return v}
+ }catch(e){errors.push(e.message)}
+ // Provider 2: Nominatim fallback. Sequential use only; cache prevents repeat calls.
+ try{
+   await new Promise(r=>setTimeout(r,1100));
+   let u='https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&countrycodes=us&q='+encodeURIComponent(q);
+   let r=await fetch(u,{headers:{'Accept':'application/json'}});if(!r.ok)throw new Error('Nominatim HTTP '+r.status);
+   let j=await r.json(),m=j?.[0];
+   if(m){let v={lat:+m.lat,lon:+m.lon,matched:m.display_name,provider:'Nominatim'};cache[k]=v;save();return v}
+ }catch(e){errors.push(e.message)}
+ throw new Error('No se pudo localizar "'+q+'". '+errors.join(' / '));
 }
 $('optimize').onclick=async()=>{
  let g=groups().filter(x=>x.address),start=$('startAddress').value.trim();
