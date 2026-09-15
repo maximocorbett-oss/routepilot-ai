@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>RoutePilot AI Web v1.1</title>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>RoutePilot AI Web v1.2</title>
 <style>
 :root{--bg:#0f172a;--panel:#111827;--card:#1f2937;--text:#f8fafc;--muted:#94a3b8;--line:#334155;--accent:#3b82f6;--ok:#22c55e;--warn:#f59e0b;--danger:#ef4444}*{box-sizing:border-box}body{margin:0;font-family:Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--text)}header{position:sticky;top:0;background:#0f172af2;border-bottom:1px solid var(--line);padding:14px 18px;z-index:2}.wrap{max-width:1150px;margin:auto}.brand{display:flex;justify-content:space-between;gap:10px;align-items:center}h1{font-size:20px;margin:0}.muted{color:var(--muted);font-size:13px}nav{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.btn,nav button{border:1px solid var(--line);background:var(--panel);color:var(--text);padding:10px 13px;border-radius:11px;cursor:pointer}nav button.active,.btn.primary{background:var(--accent);border-color:var(--accent)}main{padding:20px 18px 40px}.hidden{display:none!important}.grid{display:grid;gap:14px}.g4{grid-template-columns:repeat(4,1fr)}.g2{grid-template-columns:repeat(2,1fr)}.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px}.metric{font-size:28px;font-weight:700}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.space{justify-content:space-between}input{width:100%;background:#0b1220;color:var(--text);border:1px solid var(--line);padding:11px 12px;border-radius:10px}label{display:block;color:var(--muted);font-size:13px;margin-bottom:5px}.progress{height:12px;background:#0b1220;border-radius:999px;overflow:hidden}.progress>div{height:100%;background:var(--accent)}.badge{display:inline-block;padding:4px 8px;border:1px solid var(--line);border-radius:999px;font-size:12px}.badge.ok{border-color:var(--ok);color:#86efac}.badge.warn{border-color:var(--warn);color:#fcd34d}.camera-status{margin-top:12px;padding:12px;border:1px solid var(--line);border-radius:12px;background:#0b1220}.camera-status strong{display:block;margin-bottom:4px}.notice{padding:12px 14px;border:1px solid #1d4ed8;background:#172554;border-radius:12px}.warnbox{border-color:#92400e;background:#451a03}.zone{display:grid;grid-template-columns:110px 1fr;gap:10px;padding:12px;border:1px solid var(--line);border-radius:12px;background:#0b1220}.pill{display:inline-block;margin:3px 4px 0 0;padding:5px 8px;border-radius:8px;background:var(--card);font-size:12px}.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;font-size:14px}th,td{padding:10px 8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{color:var(--muted)}@media(max-width:800px){.g4,.g2{grid-template-columns:1fr 1fr}}@media(max-width:520px){.g4,.g2{grid-template-columns:1fr}}
 </style></head><body>
-<header><div class="wrap"><div class="brand"><div><h1>RoutePilot AI Web <span class="muted">v1.1</span></h1><div class="muted">Escanea · Organiza · Entrega</div></div><div class="row"><button class="btn" id="saveBtn">Guardar</button><button class="btn" id="exportBtn">Exportar CSV</button></div></div><nav><button data-v="dashboard" class="active">Inicio</button><button data-v="import">Importar</button><button data-v="scan">Escanear</button><button data-v="load">Carga</button><button data-v="route">Ruta</button><button data-v="search">Buscar</button></nav></div></header>
+<header><div class="wrap"><div class="brand"><div><h1>RoutePilot AI Web <span class="muted">v1.2</span></h1><div class="muted">Escanea · Organiza · Entrega</div></div><div class="row"><button class="btn" id="saveBtn">Guardar</button><button class="btn" id="exportBtn">Exportar CSV</button></div></div><nav><button data-v="dashboard" class="active">Inicio</button><button data-v="import">Importar</button><button data-v="scan">Escanear</button><button data-v="load">Carga</button><button data-v="route">Ruta</button><button data-v="search">Buscar</button></nav></div></header>
 <main class="wrap">
 <section id="dashboard"><div class="grid g4"><div class="card"><div class="muted">Paquetes</div><div class="metric" id="mTotal">0</div></div><div class="card"><div class="muted">Escaneados</div><div class="metric" id="mScanned">0</div></div><div class="card"><div class="muted">Paradas físicas</div><div class="metric" id="mStops">0</div></div><div class="card"><div class="muted">Entregados</div><div class="metric" id="mDelivered">0</div></div></div><div class="card" style="margin-top:14px"><div class="row space"><div><div class="muted">Ruta actual</div><strong id="routeName">Ruta de prueba</strong></div><button class="btn primary" onclick="view('scan')">Comenzar escaneo</button></div><div class="progress" style="margin-top:14px"><div id="progressBar" style="width:0"></div></div><div class="muted" id="progressText" style="margin-top:6px">0% cargado</div></div><div class="grid g2" style="margin-top:14px"><div class="card"><div class="muted">Punto de inicio</div><strong>1251 Metropolitan Ave, West Deptford, NJ 08066</strong></div><div class="card"><div class="muted">Último escaneo</div><div id="lastScan">Todavía no hay paquetes escaneados.</div></div></div></section>
 <section id="import" class="hidden"><div class="grid g2"><div class="card"><h3>Importar ruta</h3><p>Importa un archivo <strong>CSV</strong> o <strong>JSON</strong>.</p><input id="fileInput" type="file" accept=".csv,.json"><p class="muted">Columnas recomendadas: tracking, numero_original, direccion, ciudad, estado, zip, orden_optimizado</p><div class="row"><button class="btn primary" id="loadSampleBtn">Cargar demo</button><button class="btn" id="clearBtn">Borrar todo</button></div></div><div class="card"><h3>Agregar paquete manualmente</h3><div class="grid g2"><div><label>Número GOFO</label><input id="fGofo" type="number"></div><div><label>Tracking</label><input id="fTracking"></div><div style="grid-column:1/-1"><label>Dirección</label><input id="fAddress"></div><div><label>Ciudad</label><input id="fCity"></div><div><label>ZIP</label><input id="fZip"></div><div><label>Orden optimizado</label><input id="fOrder" type="number"></div><div><label>Estado</label><input id="fState" value="PA"></div></div><button class="btn primary" style="margin-top:12px" id="addBtn">Agregar paquete</button></div></div></section>
@@ -153,4 +153,98 @@ $('fileInput').onchange=async()=>{let f=$('fileInput').files[0];if(!f)return;let
 $('addBtn').onclick=()=>{let p=norm({gofo:+$('fGofo').value,tracking:$('fTracking').value,address:$('fAddress').value,city:$('fCity').value,state:$('fState').value,zip:$('fZip').value,order:+$('fOrder').value||+$('fGofo').value});if(!p.gofo&&!p.tracking)return alert('Necesitas GOFO o tracking');S.packages.push(p);smart();['fGofo','fTracking','fAddress','fCity','fZip','fOrder'].forEach(id=>$(id).value='')};
 function renderSearch(){let q=($('searchInput').value||'').trim().toLowerCase(),a=!q?S.packages:S.packages.filter(p=>String(p.gofo).includes(q)||p.tracking.toLowerCase().includes(q)||addr(p).toLowerCase().includes(q));$('searchResults').innerHTML=a.slice(0,100).map(p=>`<div class="card" style="margin-bottom:8px"><div class="row space"><strong>GOFO ${p.gofo}</strong><span class="badge">${p.zone}</span></div><div>${addr(p)}</div><div class="muted">Tracking: ${p.tracking} · Fila ${p.row} · ${p.side}</div></div>`).join('')||'<div class="muted">Sin resultados.</div>'}$('searchInput').addEventListener('input',renderSearch);$('sortBtn').onclick=smart;$('saveBtn').onclick=()=>{save();alert('Guardado en este navegador.')};$('exportBtn').onclick=()=>{let h=['tracking','numero_original','direccion','ciudad','estado','zip','orden_optimizado','zona','fila','lado','escaneado','entregado'],r=S.packages.map(p=>[p.tracking,p.gofo,p.address,p.city,p.state,p.zip,p.order,p.zone,p.row,p.side,p.scanned,p.delivered]),out=[h,...r].map(a=>a.map(v=>'"'+String(v??'').replaceAll('"','""')+'"').join(',')).join('\n'),blob=new Blob([out],{type:'text/csv'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='routepilot_export.csv';a.click();URL.revokeObjectURL(a.href)};
 load();if(!S.packages.length){S.packages=sample.map(norm);smart()}else render();
-</script></body></html>
+</script>
+<script>
+/* RoutePilot v1.2 - Daily Journey Layer */
+(function(){
+ const DAYKEY='routepilot_active_day', HISTKEY='routepilot_day_history';
+ const today=()=>new Date().toISOString().slice(0,10);
+ const getHist=()=>{try{return JSON.parse(localStorage.getItem(HISTKEY)||'[]')}catch(e){return[]}};
+ const archiveCurrent=()=>{
+   const raw=localStorage.getItem('routepilot_web_v1');
+   if(!raw)return;
+   try{
+     const old=JSON.parse(raw);
+     const packages=old.packages||[];
+     if(packages.length){
+       const h=getHist();
+       h.push({date:localStorage.getItem(DAYKEY)||today(),closedAt:new Date().toISOString(),packages});
+       localStorage.setItem(HISTKEY,JSON.stringify(h));
+     }
+   }catch(e){}
+ };
+ const resetCurrent=()=>{
+   localStorage.removeItem('routepilot_web_v1');
+   localStorage.setItem(DAYKEY,today());
+   location.reload();
+ };
+ const currentDay=localStorage.getItem(DAYKEY);
+ if(!currentDay){
+   localStorage.setItem(DAYKEY,today());
+   // v1.2 starts real operation empty, not with demo packages.
+   localStorage.setItem('routepilot_web_v1',JSON.stringify({name:'Jornada '+today(),packages:[]}));
+   location.reload();
+   return;
+ }
+ // If browser opens on a different date, archive prior work and begin at zero.
+ if(currentDay!==today()){
+   archiveCurrent();
+   localStorage.setItem('routepilot_web_v1',JSON.stringify({name:'Jornada '+today(),packages:[]}));
+   localStorage.setItem(DAYKEY,today());
+   location.reload();
+   return;
+ }
+ // Add journey controls.
+ const nav=document.querySelector('nav');
+ if(nav){
+   const hist=document.createElement('button'); hist.textContent='Historial';
+   hist.onclick=()=>{
+     const h=getHist();
+     alert(h.length ? h.map(x=>`${x.date}: ${x.packages.length} paquetes`).join('\n') : 'Todavía no hay jornadas archivadas.');
+   };
+   nav.appendChild(hist);
+ }
+ const header=document.querySelector('.brand');
+ if(header){
+   const day=document.createElement('div');day.className='tag';day.textContent='Jornada activa: '+today();header.appendChild(day);
+ }
+ const top=document.querySelector('header .wrap');
+ if(top){
+   const controls=document.createElement('div');controls.className='row';controls.style.marginTop='10px';
+   const finish=document.createElement('button');finish.className='btn danger';finish.textContent='Finalizar jornada';
+   finish.onclick=()=>{if(confirm('¿Finalizar la jornada? Se archivará y el panel comenzará en cero.')){archiveCurrent();resetCurrent()}};
+   const fresh=document.createElement('button');fresh.className='btn primary';fresh.textContent='+ Nueva jornada';
+   fresh.onclick=()=>{if(confirm('¿Archivar la jornada actual e iniciar una nueva en cero?')){archiveCurrent();resetCurrent()}};
+   controls.append(finish,fresh);top.appendChild(controls);
+ }
+ // Override scan behavior so unknown codes are ADDED instead of rejected.
+ window.routepilotAddUnknown=function(code){
+   code=String(code||'').trim().toUpperCase(); if(!code)return;
+   const raw=JSON.parse(localStorage.getItem('routepilot_web_v1')||'{"name":"","packages":[]}');
+   raw.packages=raw.packages||[];
+   if(raw.packages.some(p=>String(p.tracking).toUpperCase()===code||String(p.gofo)===code)){
+     return {duplicate:true};
+   }
+   raw.packages.push({tracking:code,gofo:0,address:'',city:'',state:'PA',zip:'',order:raw.packages.length+1,zone:'Sin asignar',row:0,side:'',scanned:true,delivered:false});
+   localStorage.setItem('routepilot_web_v1',JSON.stringify(raw));
+   return {added:true};
+ };
+ // Patch visible "not found" after a scan into registration of a new daily package.
+ const observer=new MutationObserver(()=>{
+   const msg=document.getElementById('scanMessage');
+   if(!msg || !/Código no encontrado:/i.test(msg.textContent))return;
+   const m=msg.textContent.match(/Código no encontrado:\s*([A-Z0-9-]+)/i);
+   if(!m)return;
+   const result=window.routepilotAddUnknown(m[1]);
+   if(result?.added){
+     msg.innerHTML='<div class="notice">✓ Paquete nuevo agregado a la jornada actual: <strong>'+m[1]+'</strong></div>';
+     setTimeout(()=>location.reload(),650);
+   }else if(result?.duplicate){
+     msg.innerHTML='<div class="notice warnbox">⚠ Paquete duplicado en la jornada actual: <strong>'+m[1]+'</strong></div>';
+   }
+ });
+ observer.observe(document.body,{subtree:true,childList:true,characterData:true});
+})();
+</script>
+
+</body></html>
